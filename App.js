@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import Onboarding from "./screens/Onboarding";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "./screens/Home";
@@ -14,6 +14,14 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 export default function App() {
+  const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: "#FFFFFF",
+    },
+  };
+
   const RenderMainApp = () => (
     <Tab.Navigator
       screenOptions={() => ({
@@ -21,9 +29,6 @@ export default function App() {
         headerShown: false,
         tabBarActiveTintColor: "#28B446", // Color of the active tab
         tabBarInactiveTintColor: "#D9D9D9", // Color of the inactive tabs
-        style: {
-          backgroundColor: "#FFFFFF", // Background color of the tab bar
-        },
 
         tabBarLabelStyle: {
           fontSize: 16, // Font size of the tab labels
@@ -97,10 +102,17 @@ export default function App() {
   // );
 
   return (
-    <NavigationContainer>
-      <StatusBar style="dark" />
+    <NavigationContainer theme={MyTheme}>
+      <StatusBar style="auto" />
       <SafeAreaView style={{ flex: 1 }}>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            contentStyle: {
+              backgroundColor: "#FFFFFF",
+            },
+          }}
+        >
           <Stack.Screen name="Onboarding" component={Onboarding} />
           <Stack.Screen name="MainApp" component={RenderMainApp} />
         </Stack.Navigator>
