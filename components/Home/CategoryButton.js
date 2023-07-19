@@ -20,13 +20,16 @@ export default CategoryButton;
 
 const styles = StyleSheet.create({
   selectedButton: {
+    flex: 1,
     backgroundColor: "#1C1C1C",
     width: "auto",
-    minWidth: 45,
+    minWidth: "auto",
+    maxWidth: 50,
     height: 18,
     // padding: 10,
     borderRadius: 5,
     alignItems: "center",
+    justifyContent: "center",
     margin: 10,
   },
   button: {

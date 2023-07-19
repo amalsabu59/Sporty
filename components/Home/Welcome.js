@@ -31,56 +31,51 @@ export default Welcome;
 const styles = StyleSheet.create({
   root: {
     flexDirection: "row",
-    margin: 16,
+    marginHorizontal: 16,
+    marginVertical: 4,
+    // backgroundColor: "red",
+    alignItems: "center", // Center items vertically in the root container
+    justifyContent: "space-between", // Align items with space between
   },
   textContainer: {
-    // backgroundColor: "green",
     display: "flex",
-    // margin: 16,
     height: 100,
   },
   greetingText: {
-    // margin: 16,
     fontFamily: "sans-serif",
     fontSize: RFValue(16),
-    fontWeight: 400,
+    fontWeight: "400",
   },
   welcomText: {
-    // margin: 16,
     fontFamily: "sans-serif",
     fontSize: RFValue(24),
-    fontWeight: 700,
+    fontWeight: "700",
     color: "#1E1D1D",
   },
   notifictionContainer: {
-    // padding: 32,
     display: "flex",
     flexDirection: "row",
-    height: 100,
-    marginLeft: "40%",
-    marginRight: 16,
+    // alignItems: "center", // Align items vertically in the center
   },
   notificationCount: {
-    // marginRight: 12,
-    marginVertical: 16,
-    // marginRight: 100,
     backgroundColor: "#28B446",
-    width: 14,
-    height: 14,
+    width: 14, // Adjust the width as needed
+    height: 14, // Adjust the height as needed
     borderRadius: 50,
+    justifyContent: "center", // Center the content vertically
+    alignItems: "center", // Center the content horizontally
+    // marginLeft: 10, // Add some margin to separate the icon and count
   },
   icon: {
-    marginVertical: 20,
+    marginTop: 8,
     height: 24,
-    width: 24,
+    width: 19,
     backgroundColor: "#F9F9F9",
     borderRadius: 50,
   },
   number: {
-    display: "flex",
-
-    textAlign: "center",
     fontSize: 10,
     fontWeight: "bold",
+    color: "white", // Add a color for the text to make it visible
   },
 });

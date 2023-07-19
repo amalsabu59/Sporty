@@ -43,7 +43,7 @@ export default function App() {
             // borderTopRightRadius: 20,
             borderRadius: 23,
             overflow: "hidden",
-            marginBottom: 28,
+            marginBottom: 24,
             width: "80%",
             marginLeft: "auto",
             marginRight: "auto",
