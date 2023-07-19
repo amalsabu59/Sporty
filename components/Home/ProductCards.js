@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollView, View, StyleSheet, Image, Text } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
-
+import { Dimensions } from "react-native";
 const ProductCard = ({ products }) => {
+  const windowWidth = Dimensions.get("window").width;
+  const windowHeight = Dimensions.get("window").height;
+
+  function DesctiotionContainer(text = "Custom Men’s Training shoes") {
+    return (
+      <>
+        {windowWidth > 300 ? (
+          <Text style={styles.descriptionText}>{text}</Text>
+        ) : null}
+      </>
+    );
+  }
   return (
     <ScrollView style={styles.container}>
       <View style={styles.row}>
@@ -13,10 +25,8 @@ const ProductCard = ({ products }) => {
             style={styles.image}
           />
 
-          <Text style={styles.productNameText}>Nike Zoom Mercurial Vapor</Text>
-          <Text style={styles.descriptionText}>
-            Custom Men’s Training shoes
-          </Text>
+          <Text style={styles.productNameText}>Nike Zoom Mercurial </Text>
+          {DesctiotionContainer()}
           <Text style={styles.priceText}>$120</Text>
         </View>
         <View style={styles.card}>
@@ -25,10 +35,8 @@ const ProductCard = ({ products }) => {
             resizeMode="contain"
             style={styles.image}
           />
-          <Text style={styles.productNameText}>Nike Zoom Mercurial Vapor</Text>
-          <Text style={styles.descriptionText}>
-            Custom Men’s Training shoes
-          </Text>
+          <Text style={styles.productNameText}>Nike Zoom Mercurial </Text>
+          {DesctiotionContainer()}
           <Text style={styles.priceText}>$120</Text>
         </View>
         <View style={styles.card}>
@@ -37,10 +45,8 @@ const ProductCard = ({ products }) => {
             resizeMode="contain"
             style={styles.image}
           />
-          <Text style={styles.productNameText}>Nike Zoom Mercurial Vapor</Text>
-          <Text style={styles.descriptionText}>
-            Custom Men’s Training shoes
-          </Text>
+          <Text style={styles.productNameText}>Nike Zoom Mercurial </Text>
+          {DesctiotionContainer()}
           <Text style={styles.priceText}>$120</Text>
         </View>
         <View style={styles.card}>
@@ -49,10 +55,8 @@ const ProductCard = ({ products }) => {
             resizeMode="contain"
             style={styles.image}
           />
-          <Text style={styles.productNameText}>Nike Zoom Mercurial Vapor</Text>
-          <Text style={styles.descriptionText}>
-            Custom Men’s Training shoes
-          </Text>
+          <Text style={styles.productNameText}>Nike Zoom Mercurial r</Text>
+          {DesctiotionContainer()}
           <Text style={styles.priceText}>$120</Text>
         </View>
         <View style={styles.card}>
@@ -61,10 +65,8 @@ const ProductCard = ({ products }) => {
             resizeMode="contain"
             style={styles.image}
           />
-          <Text style={styles.productNameText}>Nike Zoom Mercurial Vapor</Text>
-          <Text style={styles.descriptionText}>
-            Custom Men’s Training shoes
-          </Text>
+          <Text style={styles.productNameText}>Nike Zoom Mercurial </Text>
+          {DesctiotionContainer()}
           <Text style={styles.priceText}>$120</Text>
         </View>
         <View style={styles.card}>
@@ -73,10 +75,8 @@ const ProductCard = ({ products }) => {
             resizeMode="contain"
             style={styles.image}
           />
-          <Text style={styles.productNameText}>Nike Zoom Mercurial Vapor</Text>
-          <Text style={styles.descriptionText}>
-            Custom Men’s Training shoes
-          </Text>
+          <Text style={styles.productNameText}>Nike Zoom Mercurial </Text>
+          {DesctiotionContainer()}
           <Text style={styles.priceText}>$120</Text>
         </View>
       </View>
@@ -91,7 +91,8 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-    paddingHorizontal: 16,
+    marginHorizontal: 16,
+    // gap: 10,
     flexWrap: "wrap",
   },
   card: {
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 4,
     width: "45%",
-    height: "45%",
+    height: "20%",
     aspectRatio: 1, // Maintain a square shape
   },
   imageContainer: {
