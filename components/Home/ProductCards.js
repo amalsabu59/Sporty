@@ -1,11 +1,19 @@
 import React, { useEffect } from "react";
-import { ScrollView, View, StyleSheet, Image, Text } from "react-native";
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  Pressable,
+} from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
-const ProductCard = ({ products }) => {
+import { useNavigation } from "@react-navigation/native";
+const ProductCard = () => {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
-
+  const navigation = useNavigation();
   function DesctiotionContainer(text = "Custom Men’s Training shoes") {
     return (
       <>
@@ -15,10 +23,13 @@ const ProductCard = ({ products }) => {
       </>
     );
   }
+  const handleOnPress = () => {
+    navigation.navigate("ProductDetails");
+  };
   return (
     <ScrollView style={styles.container}>
       <View style={styles.row}>
-        <View style={styles.card}>
+        <Pressable style={styles.card} android_ripple onPress={handleOnPress}>
           <Image
             source={require("../../assets/images/product1.png")}
             resizeMode="contain"
@@ -28,8 +39,8 @@ const ProductCard = ({ products }) => {
           <Text style={styles.productNameText}>Nike Zoom Mercurial </Text>
           {DesctiotionContainer()}
           <Text style={styles.priceText}>$120</Text>
-        </View>
-        <View style={styles.card}>
+        </Pressable>
+        <View style={styles.card} onPress={handleOnPress}>
           <Image
             source={require("../../assets/images/product.png")}
             resizeMode="contain"
@@ -55,7 +66,7 @@ const ProductCard = ({ products }) => {
             resizeMode="contain"
             style={styles.image}
           />
-          <Text style={styles.productNameText}>Nike Zoom Mercurial r</Text>
+          <Text style={styles.productNameText}>Nike Zoom Mercurial </Text>
           {DesctiotionContainer()}
           <Text style={styles.priceText}>$120</Text>
         </View>

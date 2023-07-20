@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { TextInput, View, StyleSheet, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import Voice, {
-  SpeechResultsEvent,
-  SpeechErrorEvent,
-} from "@react-native-voice/voice";
+
 const Search = ({ placeholder }) => {
   return (
     <View style={styles.root}>
@@ -12,7 +9,7 @@ const Search = ({ placeholder }) => {
         <Icon name="search" size={20} color="gray" style={styles.iconLeft} />
         <TextInput style={styles.input} placeholder="Search Products" />
         <Pressable
-          // onPress={toggleListening}
+          // onPress={startSpeechToText}
           style={({ pressed }) => pressed && styles.micIconContainer}
         >
           <Icon name="mic" size={20} color="gray" style={styles.iconRight} />

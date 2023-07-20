@@ -10,6 +10,8 @@ import Favorites from "./screens/Favorites";
 import Cart from "./screens/Cart";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ProductDetails from "./screens/ProductsDeatails";
+import { TouchableOpacity } from "react-native";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -21,6 +23,60 @@ export default function App() {
       background: "#FFFFFF",
     },
   };
+
+  const SearchIcon = () => (
+    <TouchableOpacity onPress={() => console.log("Search icon pressed")}>
+      <Ionicons
+        name="search"
+        size={24}
+        color="#A9A9A9"
+        style={{ marginRight: 20 }}
+      />
+    </TouchableOpacity>
+  );
+  const CartIcon = ({ cartItems = 1 }) => {
+    return (
+      <TouchableOpacity onPress={() => console.log("Cart icon pressed")}>
+        <View style={styles.cartContainer}>
+          <Ionicons
+            name="cart"
+            size={24}
+            color="#A9A9A9"
+            style={styles.cartIcon}
+          />
+          {cartItems > 0 && (
+            <View style={styles.badge}>
+              <Text style={styles.badgeText}>{cartItems}</Text>
+            </View>
+          )}
+        </View>
+      </TouchableOpacity>
+    );
+  };
+  const styles = StyleSheet.create({
+    cartContainer: {
+      position: "relative",
+    },
+    cartIcon: {
+      marginRight: 28,
+    },
+    badge: {
+      position: "absolute",
+      top: -4,
+      right: 20,
+      backgroundColor: "#28B446",
+      borderRadius: 12,
+      width: 14,
+      height: 14,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    badgeText: {
+      color: "white",
+      fontSize: 10,
+      // fontWeight: "bold",
+    },
+  });
 
   const RenderMainApp = () => (
     <Tab.Navigator
@@ -105,16 +161,30 @@ export default function App() {
     <NavigationContainer theme={MyTheme}>
       <StatusBar style="auto" />
       <SafeAreaView style={{ flex: 1 }}>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-            contentStyle: {
-              backgroundColor: "#FFFFFF",
-            },
-          }}
-        >
-          <Stack.Screen name="Onboarding" component={Onboarding} />
-          <Stack.Screen name="MainApp" component={RenderMainApp} />
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Onboarding"
+            component={Onboarding}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="MainApp"
+            component={RenderMainApp}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="ProductDetails"
+            component={ProductDetails}
+            options={{
+              headerTitle: "", // Remove the header name
+              headerRight: () => (
+                <View style={{ flexDirection: "row" }}>
+                  <SearchIcon />
+                  <CartIcon />
+                </View>
+              ),
+            }}
+          />
         </Stack.Navigator>
       </SafeAreaView>
     </NavigationContainer>
