@@ -42,6 +42,9 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#FFFFFF",
+    fontFamily: "sans-serif",
+    fontSize: 20,
+    fontWeight: "400",
   },
 });
 
