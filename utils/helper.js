@@ -1,0 +1,2 @@
+export const googleLogoUrl =
+  "https://s3-alpha-sig.figma.com/img/497b/3a69/47827a44be20608adf9630cefeb06e85?Expires=1690761600&Signature=XCbM4gwX0Q8NtnI~hv7vBBFqG1RuwNIdMKatonhVKmr3hLvWweOvcQveqEGDle4lVTiV~0SblE42d-1W8G8UnuEgZcVWYoTOmjhcuHuN12Ijzxc9WWblRIP9JJ-0RrbX4V9cF86XyKJDOgiTCRiy7Ci1eW08gOU-y2MP6Lr1Axydw-94HQuRT0uiBcs3ER4vWiFKEr58K9H1JdnDo-l8r5jOyU0da8-rFxNcqjeurEGcUtYgtlqj5ZWJ8TgHkCAg5unt1oSLihoHSH9xOj2SAryksgAYXlS1~LHY0c03k-PAr3kYP0~zM5wB7o3Igv7pP2TvK-tLANUb4BuXkTq~HA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4";

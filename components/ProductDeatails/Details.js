@@ -2,7 +2,18 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "react-native";
 import { View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import BottomHalfModal from "../Modal/BottomHalfModal";
+import { Button } from "react-native";
+import Login from "../../screens/Login";
 function Details() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [sizeSelected, setSizeSeleted] = useState("XS");
+  const navigation = useNavigation();
+  const closeModal = () => {
+    setModalVisible(false);
+  };
   return (
     <View style={styles.container}>
       <View>
@@ -17,8 +28,18 @@ function Details() {
       <View style={styles.sizeAndPriceContainer}>
         {["XS", "S", "M", "L"].map((size, index) => (
           <View style={styles.sizeSelection} key={index}>
-            <View style={styles.sizes}>
-              <Text style={styles.sizesText}>{size}</Text>
+            <View
+              style={sizeSelected === size ? styles.selectedSize : styles.size}
+            >
+              <Text
+                style={
+                  sizeSelected === size
+                    ? styles.selectedSizesText
+                    : styles.sizesText
+                }
+              >
+                {size}
+              </Text>
             </View>
           </View>
         ))}
@@ -27,11 +48,17 @@ function Details() {
       <Text style={styles.price}>150$</Text>
       <Text style={styles.priceDisclamer}> Price inclusive of all taxes</Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setModalVisible(true)}
+        >
           <Ionicons name="cart" size={24} color="white" style={styles.icon} />
           <Text style={styles.buttonText}>Add To Bag</Text>
         </TouchableOpacity>
       </View>
+      <BottomHalfModal visible={modalVisible} onRequestClose={closeModal}>
+        <Login />
+      </BottomHalfModal>
     </View>
   );
 }
@@ -72,7 +99,7 @@ const styles = StyleSheet.create({
   sizeSelection: {
     marginTop: 6,
   },
-  sizes: {
+  selectedSize: {
     marginVertical: 6,
     width: 44,
     height: 44,
@@ -82,11 +109,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  sizesText: {
+  size: {
+    marginVertical: 6,
+    width: 44,
+    height: 44,
+    borderRadius: 50,
+    backgroundColor: "#F5F5F5",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  selectedSizesText: {
     fontFamily: "sans-serif",
     fontSize: 14,
     fontWeight: 400,
     color: "#fff",
+  },
+  sizesText: {
+    fontFamily: "sans-serif",
+    fontSize: 14,
+    fontWeight: 400,
+    color: "#3C3C3C",
   },
   price: {
     // marginTop: 6,

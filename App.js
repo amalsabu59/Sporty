@@ -12,6 +12,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProductDetails from "./screens/ProductsDeatails";
 import { TouchableOpacity } from "react-native";
+import Login from "./screens/Login";
+import OtpVerification from "./screens/OtpVerfication";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -160,33 +162,39 @@ export default function App() {
   return (
     <NavigationContainer theme={MyTheme}>
       <StatusBar style="auto" />
-      <SafeAreaView style={{ flex: 1 }}>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Onboarding"
-            component={Onboarding}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="MainApp"
-            component={RenderMainApp}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="ProductDetails"
-            component={ProductDetails}
-            options={{
-              headerTitle: "", // Remove the header name
-              headerRight: () => (
-                <View style={{ flexDirection: "row" }}>
-                  <SearchIcon />
-                  <CartIcon />
-                </View>
-              ),
-            }}
-          />
-        </Stack.Navigator>
-      </SafeAreaView>
+      {/* <SafeAreaView style={{ flex: 1 }}> */}
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Onboarding"
+          component={Onboarding}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MainApp"
+          component={RenderMainApp}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ProductDetails"
+          component={ProductDetails}
+          options={{
+            headerTitle: "", // Remove the header name
+            headerRight: () => (
+              <View style={{ flexDirection: "row" }}>
+                <SearchIcon />
+                <CartIcon />
+              </View>
+            ),
+          }}
+        />
+        {/* <Stack.Screen name="Login" component={Login} /> */}
+        <Stack.Screen
+          name="OtpVerification"
+          component={OtpVerification}
+          options={{ headerTitle: "" }}
+        />
+      </Stack.Navigator>
+      {/* </SafeAreaView> */}
     </NavigationContainer>
   );
 }
