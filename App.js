@@ -14,6 +14,7 @@ import ProductDetails from "./screens/ProductsDeatails";
 import { TouchableOpacity } from "react-native";
 import Login from "./screens/Login";
 import OtpVerification from "./screens/OtpVerfication";
+import AfterVerification from "./screens/AfterVerification";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -24,6 +25,23 @@ export default function App() {
       ...DefaultTheme.colors,
       background: "#FFFFFF",
     },
+  };
+
+  const CartStack = createStackNavigator();
+
+  const CartScreen = () => {
+    return (
+      <CartStack.Navigator>
+        <CartStack.Screen
+          name="MyBag"
+          component={Cart}
+          options={{
+            headerTitle: "Cart",
+          }}
+        />
+        {/* Add other screens related to the "Cart" tab if needed */}
+      </CartStack.Navigator>
+    );
   };
 
   const SearchIcon = () => (
@@ -131,18 +149,18 @@ export default function App() {
         }}
       />
       <Tab.Screen
-        name="Favorites"
-        component={Favorites}
+        name="Cart"
+        component={CartScreen}
         options={{
-          tabBarLabel: () => null,
+          tabBarLabel: () => "",
           tabBarIcon: ({ color, size }) => {
             return <Ionicons name="cart" size={size} color={color} />;
           },
         }}
       />
       <Tab.Screen
-        name="Cart"
-        component={Cart}
+        name="Favorites"
+        component={Favorites}
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size }) => {
@@ -192,6 +210,18 @@ export default function App() {
             name="OtpVerification"
             component={OtpVerification}
             options={{ headerTitle: "" }}
+          />
+          <Stack.Screen
+            name="afterVerification"
+            component={AfterVerification}
+            options={{
+              headerTitle: "",
+              headerRight: () => (
+                <View style={{ marginRight: 2 }}>
+                  <Text style={{ color: "#28B446" }}>Skip</Text>
+                </View>
+              ),
+            }}
           />
         </Stack.Navigator>
       </SafeAreaView>

@@ -1,8 +1,10 @@
 import React, { useRef, useState } from "react";
 import { View, StyleSheet, Text, TextInput } from "react-native";
 import CustomButton from "../components/UI/CustomButton";
+import { useNavigation } from "@react-navigation/native";
 
 function OtpVerification() {
+  const navigation = useNavigation();
   const [inputOtp, setInputOtp] = useState([]);
   const otpInputRefs = Array(4)
     .fill()
@@ -48,7 +50,9 @@ function OtpVerification() {
             inputOtp.length > 3 ? undefined : "rgba(128, 128, 127, 0.35)"
           }
           buttonTextColor={inputOtp.length > 3 ? undefined : "#80807F"}
-          onPress={() => {}}
+          onPress={() => {
+            navigation.navigate("afterVerification");
+          }}
         />
       </View>
     </View>
