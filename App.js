@@ -180,51 +180,51 @@ export default function App() {
   return (
     <NavigationContainer theme={MyTheme}>
       <StatusBar style="auto" />
-      <SafeAreaView style={{ flex: 1 }}>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Onboarding"
-            component={Onboarding}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="MainApp"
-            component={RenderMainApp}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="ProductDetails"
-            component={ProductDetails}
-            options={{
-              headerTitle: "", // Remove the header name
-              headerRight: () => (
-                <View style={{ flexDirection: "row" }}>
-                  <SearchIcon />
-                  <CartIcon />
-                </View>
-              ),
-            }}
-          />
-          {/* <Stack.Screen name="Login" component={Login} /> */}
-          <Stack.Screen
-            name="OtpVerification"
-            component={OtpVerification}
-            options={{ headerTitle: "" }}
-          />
-          <Stack.Screen
-            name="afterVerification"
-            component={AfterVerification}
-            options={{
-              headerTitle: "",
-              headerRight: () => (
-                <View style={{ marginRight: 2 }}>
-                  <Text style={{ color: "#28B446" }}>Skip</Text>
-                </View>
-              ),
-            }}
-          />
-        </Stack.Navigator>
-      </SafeAreaView>
+      {/* <SafeAreaView style={{ flex: 1 }}> */}
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Onboarding"
+          component={Onboarding}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MainApp"
+          component={RenderMainApp}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ProductDetails"
+          component={ProductDetails}
+          options={{
+            headerTitle: "", // Remove the header name
+            headerRight: () => (
+              <View style={{ flexDirection: "row" }}>
+                <SearchIcon />
+                <CartIcon />
+              </View>
+            ),
+          }}
+        />
+        {/* <Stack.Screen name="Login" component={Login} /> */}
+        <Stack.Screen
+          name="OtpVerification"
+          component={OtpVerification}
+          options={{ headerTitle: "" }}
+        />
+        <Stack.Screen
+          name="afterVerification"
+          component={AfterVerification}
+          options={{
+            headerTitle: "",
+            headerRight: () => (
+              <View style={{ marginRight: 2 }}>
+                <Text style={{ color: "#28B446" }}>Skip</Text>
+              </View>
+            ),
+          }}
+        />
+      </Stack.Navigator>
+      {/* </SafeAreaView> */}
     </NavigationContainer>
   );
 }

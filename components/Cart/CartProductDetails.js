@@ -1,31 +1,111 @@
-import { Image } from "react-native";
-import { Text } from "react-native";
-import { StyleSheet } from "react-native";
-import { View } from "react-native";
+import React from "react";
+import { Image, View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons"; // Import Ionicons from Expo
 
-function CartProductDetails() {
+function CartProductDetails({ imageUri, title, quantity, price }) {
   return (
-    <View style={styles.container}>
-      <Image
-        source={{
-          uri: "https://s3-alpha-sig.figma.com/img/6e2a/6075/d2aebb9b52db31deea621f309362bab4?Expires=1690761600&Signature=Y93jvy3EyECzr8LVU6KOqZrin-RFVEywNvJIJRdXyLCNtCKD1liZlEwpc2t8t5333VI0VJuCvW650kjvn9jet1TH0wFIPSUU-5QnrBbuwRDvNfC20mf5k2KThYd~wDgJX9drGFiRFC6GeNXBOLobCrojcbKEL0G98GLimUbQWPQu6ceR~R33QWUaA9PAThAmtXCbIQLRl0jMT~h9YsjPXNMxzmQGYUKnupIB8hDDJrrG7FVVwwOAv56sgHV5I5IQD3l6csxUlnK4A5bDF-t2bVbR1~LY~AdBnwCJuMl~jxfIAXwHMdxtLcOadwK7Kv-fCE2sYiDN~X9iH10ijlK4oQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-        }}
-        height={104}
-        width={104}
-        resizeMode="contain"
-      />
-      <View>
-        <Text>Pull Over</Text>
-        <Text>Pull Over</Text>
+    <View style={styles.root}>
+      <View style={styles.container}>
+        <View style={styles.imageWrapper}>
+          <Image
+            source={{
+              uri: imageUri,
+            }}
+            style={styles.image}
+          />
+        </View>
+        <View style={styles.detailsWrapper}>
+          <Text style={styles.productTitle}>{title}</Text>
+          <Text style={styles.sizeText}>Size: L</Text>
+          <View style={styles.buttonAndPriceContainer}>
+            <TouchableOpacity style={styles.button}>
+              <Ionicons name="remove" size={24} color="#9B9B9B" />
+            </TouchableOpacity>
+            <Text style={styles.productTitle}> 1</Text>
+            <TouchableOpacity style={styles.button}>
+              <Ionicons name="add" size={24} color="#9B9B9B" />
+            </TouchableOpacity>
+            <View>
+              <Text style={styles.price}>{price}</Text>
+            </View>
+          </View>
+        </View>
       </View>
     </View>
   );
 }
+
 export default CartProductDetails;
 
 const styles = StyleSheet.create({
+  root: {
+    width: "100%",
+    height: 104,
+    marginTop: 16,
+  },
   container: {
     display: "flex",
     flexDirection: "row",
+    backgroundColor: "#FFF",
+    borderRadius: 8,
+    elevation: 4,
+  },
+  imageWrapper: {
+    borderRadius: 8, // Border radius for the image wrapper
+    overflow: "hidden", // To clip the image inside the wrapper
+    width: 95, // Width of the image wrapper (adjust as needed)
+    height: 104, // Height of the image wrapper (adjust as needed)
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+  },
+  detailsWrapper: {
+    margin: 8, // Adjust the spacing between image and text to your preference
+    width: "65%", // Adjust the spacing between
+  },
+  productTitle: {
+    fontFamily: "sans-serif",
+    color: "#1A1A1A",
+    fontWeight: 400,
+    fontSize: 14,
+  },
+  sizeText: {
+    fontFamily: "sans-serif",
+    color: "#9B9B9B",
+    fontWeight: 400,
+    fontSize: 11,
+  },
+  buttonAndPriceContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    width: "100%",
+    height: "60%",
+    // backgroundColor: "red",
+  },
+  button: {
+    width: 36,
+    height: 36,
+    borderRadius: 18, // Half of the height to create a circular button
+    backgroundColor: "var(--white, #FFF)",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "rgba(0, 0, 0, 0.20)",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 4, // For Android shadow
+  },
+  buttonText: {
+    fontSize: 18,
+    color: "#9B9B9B",
+  },
+  price: {
+    fontFamily: "sans-serif",
+    color: "#1A1A1A",
+    fontWeight: "bold",
+
+    fontSize: 14,
   },
 });
