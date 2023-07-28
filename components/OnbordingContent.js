@@ -1,5 +1,5 @@
 import { Button, StyleSheet, TouchableOpacity, Text, View } from "react-native";
-import { RFValue } from "react-native-responsive-fontsize";
+// import { RFValue } from "react-native-responsive-fontsize";
 import { useNavigation } from "@react-navigation/native";
 function OnboardingContent() {
   const navigation = useNavigation();
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
     color: "#FFFFFF",
-    fontSize: RFValue(30),
+    fontSize: 30,
     fontWeight: 600,
   },
   textContainer: {
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
     color: "#A9A9A9",
-    fontSize: RFValue(14),
+    fontSize: 14,
   },
   buttonContainer: {
     marginTop: 34,
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontSize: RFValue(18),
+    fontSize: 18,
     // fontWeight: "bold",
   },
 });

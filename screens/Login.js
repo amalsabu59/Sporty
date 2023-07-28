@@ -6,13 +6,23 @@ import { StyleSheet } from "react-native";
 import CustomButton from "../components/UI/CustomButton";
 import GoogleSignInButton from "../components/UI/GoogleSignInButton";
 import { useNavigation } from "@react-navigation/native";
+import { login } from "../redux/slices/loginSlice";
+import { useDispatch } from "react-redux";
 
 const Login = ({ onRequestClose }) => {
+  const dispatch = useDispatch();
+  const [userInfo, setuserInfo] = useState();
+  // GoogleSignin.configure();
   const navigation = useNavigation();
   const handleContinueHandler = () => {
-    console.log("ented otp continue...");
+    dispatch(login({ phone: userInfo }));
+    console.log(userInfo, "ented otp continue...");
     onRequestClose();
     navigation.navigate("OtpVerification");
+  };
+
+  const handleChange = (text) => {
+    setuserInfo(text);
   };
   return (
     <View style={styles.root}>
@@ -32,7 +42,11 @@ const Login = ({ onRequestClose }) => {
         Login <Text style={{ color: "#A9A9A9" }}>or</Text> Signup
       </Text>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="    +91 Mobile Number *" />
+        <TextInput
+          style={styles.input}
+          placeholder="    +91 Mobile Number *"
+          onChangeText={handleChange}
+        />
       </View>
       <Text style={styles.disclamerText}>
         I agree to the <Text style={{ color: "#28B446" }}>terms </Text>and{" "}

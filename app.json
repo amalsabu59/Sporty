@@ -14,18 +14,7 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "permissions": [
-      "android.permission.RECORD_AUDIO"
-    ],
-    "plugins": [
-      [
-        "@react-native-voice/voice",
-        {
-          "microphonePermission": "Allow Ecom to access your microphone",
-          "speechRecogntionPermission": "Allow Ecom to securely recognize user speech"
-        }
-      ]
-    ],
+    "plugins": [],
     "ios": {
       "supportsTablet": true
     },
@@ -37,6 +26,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "scheme": [
+      "sporty"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "3285c33f-29fe-4bfd-8ebc-2c3776ac3b4d"
+      }
     }
   }
 }

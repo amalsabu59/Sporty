@@ -7,6 +7,7 @@ import { Dimensions } from "react-native";
 
 const DATA = [
   {
+    id: 1,
     name: "Pullover",
     price: 19.99,
     quantity: 10,
@@ -14,6 +15,7 @@ const DATA = [
       "https://s3-alpha-sig.figma.com/img/6e2a/6075/d2aebb9b52db31deea621f309362bab4?Expires=1690761600&Signature=Y93jvy3EyECzr8LVU6KOqZrin-RFVEywNvJIJRdXyLCNtCKD1liZlEwpc2t8t5333VI0VJuCvW650kjvn9jet1TH0wFIPSUU-5QnrBbuwRDvNfC20mf5k2KThYd~wDgJX9drGFiRFC6GeNXBOLobCrojcbKEL0G98GLimUbQWPQu6ceR~R33QWUaA9PAThAmtXCbIQLRl0jMT~h9YsjPXNMxzmQGYUKnupIB8hDDJrrG7FVVwwOAv56sgHV5I5IQD3l6csxUlnK4A5bDF-t2bVbR1~LY~AdBnwCJuMl~jxfIAXwHMdxtLcOadwK7Kv-fCE2sYiDN~X9iH10ijlK4oQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
   },
   {
+    id: 2,
     name: "T-shirt",
     price: 14.99,
     quantity: 8,
@@ -22,6 +24,7 @@ const DATA = [
   },
 
   {
+    id: 3,
     name: "Sports Dress",
     price: 24.99,
     quantity: 12,
@@ -29,6 +32,7 @@ const DATA = [
       "https://s3-alpha-sig.figma.com/img/1821/5f62/e259b4c9081785e2fb7f4b553d1a8023?Expires=1691366400&Signature=D0Rqh-~SRGvJkzAwo4aVKt58Rw98F8TKss2pRmCqrRjLjYKa23lzQutA-IyrKaa0C-bcW9vTm031ZIRo8Fca0liCezKHXlSTbMNcneCswf66n4OpljCm2shixGTJC4wzM3xbN1v~smqDEnUpNy7AJzCD-7MvvPGua49PDGvKbJwuG2708-ML8qx9mLKLLH7FFpbK2StGaacbI6khSdqndAYYgDZWxfPuKIAWLJe~00tT-y~imMaO2K-sa6C4oXMKpELpC37sHYn~DEUcpy3ER8P17ltwNN6i3b0dX3HoI9MHbMffzsKESsd7PSGHpRgUGUU9~UZe4LqR9GKWFXbRqA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
   },
   {
+    id: 4,
     name: "Sports Dress",
     price: 24.99,
     quantity: 12,
