@@ -2,13 +2,17 @@ import { Text } from "react-native";
 import { StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
+import { useSelector } from "react-redux";
 
 function Welcome() {
+  const userName = useSelector((state) => state.user.currentUser.name);
   return (
     <View style={styles.root}>
       <View style={styles.textContainer}>
         <View>
-          <Text style={styles.greetingText}>Morning Azie !</Text>
+          <Text style={styles.greetingText}>
+            Hello {userName ? userName : " user"} !
+          </Text>
         </View>
         <View>
           <Text style={styles.welcomText}>

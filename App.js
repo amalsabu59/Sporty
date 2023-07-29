@@ -243,14 +243,17 @@ export default function App() {
             <Stack.Screen
               name="afterVerification"
               component={AfterVerification}
-              options={{
+              options={({ navigation }) => ({
                 headerTitle: "",
                 headerRight: () => (
-                  <View style={{ marginRight: 20 }}>
+                  <TouchableOpacity // Use TouchableOpacity instead of View
+                    style={{ marginRight: 20 }}
+                    onPress={() => navigation.navigate("Cart")} // Wrap it inside an arrow function
+                  >
                     <Text style={{ color: "#28B446" }}>Skip</Text>
-                  </View>
+                  </TouchableOpacity>
                 ),
-              }}
+              })}
             />
           </Stack.Navigator>
           {/* </SafeAreaView> */}
