@@ -7,6 +7,7 @@ import { useToast } from "react-native-toast-notifications";
 import { login } from "../redux/slices/loginSlice";
 function OtpVerification() {
   const [inputOtp, setInputOtp] = useState([]);
+  const otpInputRefs = useRef([]);
   const toast = useToast();
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -14,13 +15,26 @@ function OtpVerification() {
   const userStore = useSelector((state) => state.user);
   const verifiedPhone = userStore?.currentUser?.phone;
   const otp = userStore?.otpForVerification;
-  const otpInputRefs = Array(4)
-    .fill()
-    .map(() => useRef(null));
 
   const focusNextInput = (index) => {
-    if (index < otpInputRefs.length - 1) {
-      otpInputRefs[index + 1].current.focus();
+    if (otpInputRefs.current[index + 1]) {
+      otpInputRefs.current[index + 1].focus();
+    }
+  };
+
+  const focusPrevInput = (index) => {
+    if (otpInputRefs.current[index - 1]) {
+      otpInputRefs.current[index - 1].focus();
+    }
+  };
+  const handleBackspace = (index) => {
+    if (inputOtp.length > 0) {
+      setInputOtp((prev) => {
+        const updatedOtp = [...prev];
+        updatedOtp.pop(); // Remove the last entered digit
+        return updatedOtp;
+      });
+      focusPrevInput(index);
     }
   };
   const handleVerifyCode = () => {
@@ -44,15 +58,21 @@ function OtpVerification() {
         {[...Array(4)].map((_, index) => (
           <TextInput
             key={index}
-            ref={otpInputRefs[index]}
+            ref={(ref) => (otpInputRefs.current[index] = ref)}
             style={styles.otpInput}
             maxLength={1}
             keyboardType="numeric"
             onChangeText={(text) => {
               if (text.length === 1) {
                 focusNextInput(index);
+              } else if (text.length === 0) {
+                handleBackspace(index);
               }
-              setInputOtp((prev) => [...prev, text]);
+              setInputOtp((prev) => {
+                const updatedOtp = [...prev];
+                updatedOtp[index] = text;
+                return updatedOtp;
+              });
             }}
           />
         ))}
