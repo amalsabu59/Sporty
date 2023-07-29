@@ -6,6 +6,8 @@ import { googleLogoUrl } from "../../utils/helper";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { closeLoginModal, login } from "../../redux/slices/loginSlice";
+import { useDispatch } from "react-redux";
 // import React from "react";
 //web
 //366094365462-197oa06f3gvb7vc233snki83ktg9u94t.apps.googleusercontent.com
@@ -26,27 +28,35 @@ const GoogleSignInButton = ({
     androidClientId:
       "366094365462-17ugb03j7qm7k9g1t42denlrjca6n91n.apps.googleusercontent.com",
   });
+
+  const dispatch = useDispatch();
   useEffect(() => {
     handleEffect();
-  }, [userInfo]);
+    console.log("I fire once");
+  }, [response]);
 
   async function handleEffect() {
     const user = await getLocalUser();
-    // if (!user) {
-    if (response?.type === "success") {
-      // console.log(response.authentication.accessToken);
-      setToken(response.authentication.accessToken);
-      getUserInfo(response.authentication.accessToken);
+
+    if (!user) {
+      if (response?.type === "success") {
+        // console.log(response.authentication.accessToken);
+        setToken(response.authentication.accessToken);
+        getUserInfo(response.authentication.accessToken);
+      }
+    } else {
+      console.log("entering");
+      dispatch(closeLoginModal());
+      // dispatch(
+      //   login({ email: user.email, name: user.given_name, isGoogleUser: true })
+      // );
+      setUserInfo(user);
+      // console.log("loaded locally");
     }
-    // }
-    //  else {
-    //   setUserInfo(user);
-    //   console.log("loaded locally");
-    // }
   }
 
   const getLocalUser = async () => {
-    const data = await AsyncStorage.getItem("@user");
+    const data = await AsyncStorage.getItem("@currentUser");
     if (!data) return null;
     return JSON.parse(data);
   };
@@ -62,8 +72,16 @@ const GoogleSignInButton = ({
       );
 
       const user = await response.json();
-      console.log(user);
-      await AsyncStorage.setItem("@user", JSON.stringify(user));
+      console.log(user.email, user.given_name);
+      await AsyncStorage.setItem(
+        "@currentUser",
+        JSON.stringify({ email: user.email, name: user.given_name })
+      );
+
+      dispatch(
+        login({ email: user.email, name: user.given_name, isGoogleUser: true })
+      );
+      dispatch(closeLoginModal());
       setUserInfo(user);
     } catch (error) {
       // Add your own error handler here

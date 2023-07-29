@@ -7,12 +7,22 @@ import { useNavigation } from "@react-navigation/native";
 import BottomHalfModal from "../Modal/BottomHalfModal";
 import { Button } from "react-native";
 import Login from "../../screens/Login";
+import { useDispatch, useSelector } from "react-redux";
+import { closeLoginModal, openLoginModal } from "../../redux/slices/loginSlice";
 function Details() {
   const [modalVisible, setModalVisible] = useState(false);
   const [sizeSelected, setSizeSeleted] = useState("XS");
-  const navigation = useNavigation();
+
+  const modalState = useSelector((state) => state.user.loginModal);
+  const isCurrentUser = useSelector((state) => state.user.currentUser?._id);
+  const dispatch = useDispatch();
   const closeModal = () => {
-    setModalVisible(false);
+    dispatch(closeLoginModal());
+  };
+  const addtoCart = () => {
+    if (!isCurrentUser) {
+      dispatch(openLoginModal());
+    }
   };
   return (
     <View style={styles.container}>
@@ -48,15 +58,12 @@ function Details() {
       <Text style={styles.price}>150$</Text>
       <Text style={styles.priceDisclamer}> Price inclusive of all taxes</Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => setModalVisible(true)}
-        >
+        <TouchableOpacity style={styles.button} onPress={addtoCart}>
           <Ionicons name="cart" size={24} color="white" style={styles.icon} />
           <Text style={styles.buttonText}>Add To Bag</Text>
         </TouchableOpacity>
       </View>
-      <BottomHalfModal visible={modalVisible} onRequestClose={closeModal}>
+      <BottomHalfModal visible={modalState} onRequestClose={closeModal}>
         <Login />
       </BottomHalfModal>
     </View>

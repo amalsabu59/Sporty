@@ -6,6 +6,8 @@ import Onboarding from "./screens/Onboarding";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import { ToastProvider } from "react-native-toast-notifications";
+import { useToast } from "react-native-toast-notifications";
 import Home from "./screens/Home";
 import Profile from "./screens/Profile";
 import Favorites from "./screens/Favorites";
@@ -182,52 +184,77 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer theme={MyTheme}>
-        {/* <StatusBar style="auto" /> */}
-        {/* <SafeAreaView style={{ flex: 1 }}> */}
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Onboarding"
-            component={Onboarding}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="MainApp"
-            component={RenderMainApp}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="ProductDetails"
-            component={ProductDetails}
-            options={{
-              headerTitle: "", // Remove the header name
-              headerRight: () => (
-                <View style={{ flexDirection: "row" }}>
-                  <SearchIcon />
-                  <CartIcon />
-                </View>
-              ),
-            }}
-          />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen
-            name="OtpVerification"
-            component={OtpVerification}
-            options={{ headerTitle: "" }}
-          />
-          <Stack.Screen
-            name="afterVerification"
-            component={AfterVerification}
-            options={{
-              headerTitle: "",
-              headerRight: () => (
-                <View style={{ marginRight: 2 }}>
-                  <Text style={{ color: "#28B446" }}>Skip</Text>
-                </View>
-              ),
-            }}
-          />
-        </Stack.Navigator>
-        {/* </SafeAreaView> */}
+        <ToastProvider
+          placement="top"
+          duration={5000}
+          animationType="zoom-in"
+          animationDuration={250}
+          successColor="green"
+          dangerColor="red"
+          warningColor="orange"
+          normalColor="gray"
+          swipeEnabled={true}
+          renderType={{
+            custom: (toast) => (
+              <View
+                style={{
+                  padding: 15,
+                  borderRadius: 5,
+                  backgroundColor: `rgba(30, 29, 29, 0.8)`,
+                }}
+              >
+                <Text style={{ color: "#28B446" }}>{toast.message}</Text>
+              </View>
+            ),
+          }}
+        >
+          {/* <StatusBar style="auto" /> */}
+          {/* <SafeAreaView style={{ flex: 1 }}> */}
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Onboarding"
+              component={Onboarding}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="MainApp"
+              component={RenderMainApp}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ProductDetails"
+              component={ProductDetails}
+              options={{
+                headerTitle: "", // Remove the header name
+                headerRight: () => (
+                  <View style={{ flexDirection: "row" }}>
+                    <SearchIcon />
+                    <CartIcon />
+                  </View>
+                ),
+              }}
+            />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen
+              name="OtpVerification"
+              component={OtpVerification}
+              options={{ headerTitle: "" }}
+            />
+            <Stack.Screen
+              name="afterVerification"
+              component={AfterVerification}
+              options={{
+                headerTitle: "",
+                headerRight: () => (
+                  <View style={{ marginRight: 20 }}>
+                    <Text style={{ color: "#28B446" }}>Skip</Text>
+                  </View>
+                ),
+              }}
+            />
+          </Stack.Navigator>
+          {/* </SafeAreaView> */}
+        </ToastProvider>
       </NavigationContainer>
     </Provider>
   );

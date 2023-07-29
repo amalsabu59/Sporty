@@ -3,9 +3,15 @@ import Welcome from "../components/Home/Welcome";
 import Search from "../components/Home/Search";
 import CategoryButton from "../components/Home/CategoryButton";
 import ProductCard from "../components/Home/ProductCards";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { getCurrentUser } from "../redux/slices/loginSlice";
 
 function Home() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, []);
   const [selectedCat, setSelectedCat] = useState("all");
   const handleButtonPress = (type) => {
     console.log("Button Pressed!");

@@ -2,26 +2,43 @@ import React, { useRef, useState } from "react";
 import { View, StyleSheet, Text, TextInput } from "react-native";
 import CustomButton from "../components/UI/CustomButton";
 import { useNavigation } from "@react-navigation/native";
-
+import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "react-native-toast-notifications";
+import { login } from "../redux/slices/loginSlice";
 function OtpVerification() {
-  const navigation = useNavigation();
   const [inputOtp, setInputOtp] = useState([]);
+  const toast = useToast();
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const userStore = useSelector((state) => state.user);
+  const verifiedPhone = userStore?.currentUser?.phone;
+  const otp = userStore?.otpForVerification;
   const otpInputRefs = Array(4)
     .fill()
     .map(() => useRef(null));
 
-  console.log(typeof inputOtp);
   const focusNextInput = (index) => {
     if (index < otpInputRefs.length - 1) {
       otpInputRefs[index + 1].current.focus();
     }
   };
-
+  const handleVerifyCode = () => {
+    if (parseInt(inputOtp?.join(""), 10) !== Number(otp)) {
+      toast.show("Verification Failed !", {
+        type: "danger",
+      });
+      return;
+    }
+    dispatch(login({ phone: verifiedPhone }));
+    navigation.navigate("afterVerification");
+  };
   return (
     <View style={styles.root}>
       <Text style={styles.headingText}>OTP Verification</Text>
       <Text style={styles.description}>
-        Enter the verification code we just sent to your number +233 *******53.
+        Enter the verification code we just sent to your number +91-
+        {verifiedPhone}.
       </Text>
       <View style={styles.otpContainer}>
         {[...Array(4)].map((_, index) => (
@@ -51,7 +68,7 @@ function OtpVerification() {
           }
           buttonTextColor={inputOtp.length > 3 ? undefined : "#80807F"}
           onPress={() => {
-            navigation.navigate("afterVerification");
+            handleVerifyCode();
           }}
         />
       </View>

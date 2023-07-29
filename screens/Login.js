@@ -6,23 +6,28 @@ import { StyleSheet } from "react-native";
 import CustomButton from "../components/UI/CustomButton";
 import GoogleSignInButton from "../components/UI/GoogleSignInButton";
 import { useNavigation } from "@react-navigation/native";
-import { login } from "../redux/slices/loginSlice";
+import { sendotp } from "../redux/slices/loginSlice";
 import { useDispatch } from "react-redux";
+import { useToast } from "react-native-toast-notifications";
 
 const Login = ({ onRequestClose }) => {
+  const toast = useToast();
   const dispatch = useDispatch();
-  const [userInfo, setuserInfo] = useState();
-  // GoogleSignin.configure();
+  const [mobileNumber, setmobileNumber] = useState("");
   const navigation = useNavigation();
   const handleContinueHandler = () => {
-    dispatch(login({ phone: userInfo }));
-    console.log(userInfo, "ented otp continue...");
+    if (mobileNumber?.length < 10) {
+      return toast.show("Invalid Phone Number !", {
+        type: "danger",
+      });
+    }
+    dispatch(sendotp({ phone: mobileNumber }));
     onRequestClose();
     navigation.navigate("OtpVerification");
   };
 
   const handleChange = (text) => {
-    setuserInfo(text);
+    setmobileNumber(text);
   };
   return (
     <View style={styles.root}>
@@ -44,8 +49,11 @@ const Login = ({ onRequestClose }) => {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          placeholder="    +91 Mobile Number *"
+          placeholder="    Mobile Number *"
           onChangeText={handleChange}
+          value={mobileNumber}
+          maxLength={10}
+          keyboardType="numeric"
         />
       </View>
       <Text style={styles.disclamerText}>

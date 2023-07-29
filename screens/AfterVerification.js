@@ -2,8 +2,20 @@ import { Text, TextInput } from "react-native";
 import { View } from "react-native";
 import { StyleSheet } from "react-native";
 import CustomButton from "../components/UI/CustomButton";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserName } from "../redux/slices/loginSlice";
+import { useNavigation } from "@react-navigation/native";
 
 function AfterVerification() {
+  const [name, setName] = useState("");
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const updateNameHandler = () => {
+    dispatch(updateUserName({ id: currentUser._id, name }));
+    navigation.navigate("Cart");
+  };
   return (
     <View style={styles.root}>
       <Text style={styles.welcomeText}>
@@ -13,13 +25,13 @@ function AfterVerification() {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          //   onChangeText={handleTextChange}
-          //   value={text}
+          onChangeText={(text) => setName(text)}
+          value={name}
           placeholder="Type your name (optional)"
         />
       </View>
       <View style={styles.buttonContainer}>
-        <CustomButton />
+        <CustomButton onPress={updateNameHandler} />
       </View>
     </View>
   );
