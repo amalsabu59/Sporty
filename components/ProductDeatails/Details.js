@@ -9,9 +9,8 @@ import { Button } from "react-native";
 import Login from "../../screens/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { closeLoginModal, openLoginModal } from "../../redux/slices/loginSlice";
-function Details() {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [sizeSelected, setSizeSeleted] = useState("XS");
+function Details({ product }) {
+  const [sizeSelected, setSizeSeleted] = useState("XL");
 
   const modalState = useSelector((state) => state.user.loginModal);
   const isCurrentUser = useSelector((state) => state.user.currentUser?._id);
@@ -19,7 +18,7 @@ function Details() {
   const closeModal = () => {
     dispatch(closeLoginModal());
   };
-  const addtoCart = () => {
+  const addtoCart = (id) => {
     if (!isCurrentUser) {
       dispatch(openLoginModal());
     }
@@ -27,17 +26,19 @@ function Details() {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.productNameText}>Nike Therma-FIT</Text>
+        <Text style={styles.productNameText}>{product.title}</Text>
       </View>
       <View>
-        <Text style={styles.productDescriptionText}>
-          Худи с молнией во всю длину для зимнего
-        </Text>
+        <Text style={styles.productDescriptionText}>{product.desc}</Text>
       </View>
       <Text style={styles.sizeAndPriceText}> Size</Text>
       <View style={styles.sizeAndPriceContainer}>
-        {["XS", "S", "M", "L"].map((size, index) => (
-          <View style={styles.sizeSelection} key={index}>
+        {product.size.map((size, index) => (
+          <TouchableOpacity
+            style={styles.sizeSelection}
+            key={index}
+            onPress={() => setSizeSeleted(size)}
+          >
             <View
               style={sizeSelected === size ? styles.selectedSize : styles.size}
             >
@@ -51,14 +52,17 @@ function Details() {
                 {size}
               </Text>
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
       <Text style={styles.sizeAndPriceText}> Price</Text>
-      <Text style={styles.price}>150$</Text>
+      <Text style={styles.price}>{product.price} $</Text>
       <Text style={styles.priceDisclamer}> Price inclusive of all taxes</Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={addtoCart}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => addtoCart(product._id)}
+        >
           <Ionicons name="cart" size={24} color="white" style={styles.icon} />
           <Text style={styles.buttonText}>Add To Bag</Text>
         </TouchableOpacity>

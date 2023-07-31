@@ -10,11 +10,13 @@ import {
 import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-const ProductCard = () => {
+import { useSelector } from "react-redux";
+const ProductCard = ({ products }) => {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
+
   const navigation = useNavigation();
-  function DesctiotionContainer(text = "Custom Men’s Training shoes") {
+  function DescriptionContainer(text = "Custom Men’s Training shoes") {
     return (
       <>
         {windowWidth > 300 ? (
@@ -23,73 +25,33 @@ const ProductCard = () => {
       </>
     );
   }
-  const handleOnPress = () => {
-    navigation.navigate("ProductDetails");
+  const handleOnPress = (id) => {
+    navigation.navigate("ProductDetails", { id });
   };
   return (
     <ScrollView style={styles.container}>
       <View style={styles.row}>
-        <Pressable style={styles.card} android_ripple onPress={handleOnPress}>
-          <Image
-            source={require("../../assets/images/product1.png")}
-            resizeMode="contain"
-            style={styles.image}
-          />
+        {products &&
+          products.map((product) => {
+            return (
+              <Pressable
+                key={product._id}
+                style={styles.card}
+                android_ripple
+                onPress={() => handleOnPress(product._id)}
+              >
+                <Image
+                  source={{ uri: product.img[0] }}
+                  resizeMode="contain"
+                  style={styles.image}
+                />
 
-          <Text style={styles.productNameText}>Nike Zoom Mercurial </Text>
-          {DesctiotionContainer()}
-          <Text style={styles.priceText}>$120</Text>
-        </Pressable>
-        <View style={styles.card} onPress={handleOnPress}>
-          <Image
-            source={require("../../assets/images/product.png")}
-            resizeMode="contain"
-            style={styles.image}
-          />
-          <Text style={styles.productNameText}>Nike Zoom Mercurial </Text>
-          {DesctiotionContainer()}
-          <Text style={styles.priceText}>$120</Text>
-        </View>
-        <View style={styles.card}>
-          <Image
-            source={require("../../assets/images/product.png")}
-            resizeMode="contain"
-            style={styles.image}
-          />
-          <Text style={styles.productNameText}>Nike Zoom Mercurial </Text>
-          {DesctiotionContainer()}
-          <Text style={styles.priceText}>$120</Text>
-        </View>
-        <View style={styles.card}>
-          <Image
-            source={require("../../assets/images/product1.png")}
-            resizeMode="contain"
-            style={styles.image}
-          />
-          <Text style={styles.productNameText}>Nike Zoom Mercurial </Text>
-          {DesctiotionContainer()}
-          <Text style={styles.priceText}>$120</Text>
-        </View>
-        <View style={styles.card}>
-          <Image
-            source={require("../../assets/images/product1.png")}
-            resizeMode="contain"
-            style={styles.image}
-          />
-          <Text style={styles.productNameText}>Nike Zoom Mercurial </Text>
-          {DesctiotionContainer()}
-          <Text style={styles.priceText}>$120</Text>
-        </View>
-        <View style={styles.card}>
-          <Image
-            source={require("../../assets/images/product.png")}
-            resizeMode="contain"
-            style={styles.image}
-          />
-          <Text style={styles.productNameText}>Nike Zoom Mercurial </Text>
-          {DesctiotionContainer()}
-          <Text style={styles.priceText}>$120</Text>
-        </View>
+                <Text style={styles.productNameText}>{product.title} </Text>
+                {DescriptionContainer(product.desc)}
+                <Text style={styles.priceText}>$ {product.price}</Text>
+              </Pressable>
+            );
+          })}
       </View>
     </ScrollView>
   );

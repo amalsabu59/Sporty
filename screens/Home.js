@@ -4,53 +4,87 @@ import Search from "../components/Home/Search";
 import CategoryButton from "../components/Home/CategoryButton";
 import ProductCard from "../components/Home/ProductCards";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from "../redux/slices/loginSlice";
+import { getProducts } from "../redux/slices/productsSlice";
 
 function Home() {
+  const products = useSelector((state) => state.products.products);
+  const [productsAccToCategory, setproductsAccToCategory] = useState(products);
+  const [searchKeyWord, setSearchKeyWord] = useState("");
   const dispatch = useDispatch();
+  const [selectedCat, setSelectedCat] = useState("All");
   useEffect(() => {
     dispatch(getCurrentUser());
+    dispatch(getProducts());
   }, []);
-  const [selectedCat, setSelectedCat] = useState("all");
+
+  useEffect(() => {
+    if (searchKeyWord) {
+      setSelectedCat("All");
+      const filteredProduct = products.filter(({ title }) => {
+        const item = title.toLowerCase();
+        return item.includes(searchKeyWord.toLocaleLowerCase());
+      });
+
+      if (filteredProduct.length > 0) {
+        setproductsAccToCategory(filteredProduct);
+      } else {
+        setproductsAccToCategory([]);
+      }
+    } else {
+      setproductsAccToCategory(products);
+    }
+  }, [searchKeyWord, products]);
+
   const handleButtonPress = (type) => {
-    console.log("Button Pressed!");
     setSelectedCat(type);
-    // Perform your desired action here
+    if (type === "All") {
+      return setproductsAccToCategory(products);
+    }
+
+    const filteredProduct = products.filter((item) => {
+      return item.categories.includes(type);
+    });
+
+    setproductsAccToCategory(filteredProduct);
   };
 
   return (
     <View style={styles.container}>
       <Welcome />
-      <Search />
+      <Search
+        searchKeyWord={searchKeyWord}
+        setSearchKeyWord={setSearchKeyWord}
+      />
       <View style={styles.categoryButtonContainer}>
         <CategoryButton
           title="All"
-          onPress={() => handleButtonPress("all")}
-          selected={selectedCat === "all"}
+          onPress={() => handleButtonPress("All")}
+          selected={selectedCat === "All"}
         />
         <CategoryButton
           title="Trending"
-          onPress={() => handleButtonPress("trending")}
-          selected={selectedCat === "trending"}
+          onPress={() => handleButtonPress("Trending")}
+          selected={selectedCat === "Trending"}
         />
         <CategoryButton
           title="Men"
-          onPress={() => handleButtonPress("men")}
-          selected={selectedCat === "men"}
+          onPress={() => handleButtonPress("Men")}
+          selected={selectedCat === "Men"}
         />
         <CategoryButton
           title="Women"
-          onPress={() => handleButtonPress("women")}
-          selected={selectedCat === "women"}
+          onPress={() => handleButtonPress("Women")}
+          selected={selectedCat === "Women"}
         />
         <CategoryButton
           title="Children"
-          onPress={() => handleButtonPress("children")}
-          selected={selectedCat === "children"}
+          onPress={() => handleButtonPress("Children")}
+          selected={selectedCat === "Children"}
         />
       </View>
-      <ProductCard />
+      <ProductCard products={productsAccToCategory} />
       {/* <View  style={styles.categoryButtonContainer}>
         <CategoryButton title="filter" onPress={handleButtonPress} selected />
       </View> */}

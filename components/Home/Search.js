@@ -1,18 +1,81 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { TextInput, View, StyleSheet, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import Voice from "@react-native-voice/voice";
 
-const Search = ({ placeholder }) => {
+const useSpeechToText = () => {
+  const [isListening, setIsListening] = React.useState(false);
+  const [recognizedText, setRecognizedText] = React.useState("");
+
+  useEffect(() => {
+    Voice.onSpeechResults = onSpeechResults;
+
+    return () => {
+      Voice.destroy().then(Voice.removeAllListeners);
+    };
+  }, []);
+
+  const onSpeechResults = (event) => {
+    const text = event.value[0];
+    setRecognizedText(text);
+  };
+
+  const startSpeechToText = async () => {
+    try {
+      setIsListening(true);
+      await Voice.start("en-US"); // You can specify the language here
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const stopSpeechToText = async () => {
+    try {
+      setIsListening(false);
+      await Voice.stop();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return { isListening, recognizedText, startSpeechToText, stopSpeechToText };
+};
+
+const Search = ({ searchKeyWord, setSearchKeyWord }) => {
+  const { isListening, recognizedText, startSpeechToText, stopSpeechToText } =
+    useSpeechToText();
+  console.log(recognizedText, isListening);
+
+  const handleSearchTextChange = (text) => {
+    console.log(text);
+    setSearchKeyWord(text);
+  };
+
+  useEffect(() => {
+    if (recognizedText) {
+      setSearchKeyWord(recognizedText);
+    }
+  }, [isListening, recognizedText]);
   return (
     <View style={styles.root}>
       <View style={styles.inputContainer}>
         <Icon name="search" size={20} color="gray" style={styles.iconLeft} />
-        <TextInput style={styles.input} placeholder="Search Products" />
+        <TextInput
+          style={styles.input}
+          placeholder="Search Products"
+          onChangeText={handleSearchTextChange}
+          value={searchKeyWord}
+        />
         <Pressable
-          // onPress={startSpeechToText}
-          style={({ pressed }) => pressed && styles.micIconContainer}
+          onPress={isListening ? stopSpeechToText : startSpeechToText}
+          style={({ pressed }) => isListening && styles.micIconContainer}
         >
-          <Icon name="mic" size={20} color="gray" style={styles.iconRight} />
+          <Icon
+            name={isListening ? "mic-off" : "mic"}
+            size={20}
+            color="gray"
+            style={styles.iconRight}
+          />
         </Pressable>
       </View>
     </View>

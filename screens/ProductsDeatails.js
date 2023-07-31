@@ -2,19 +2,18 @@ import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import ImageSwipe from "../components/ProductDeatails/ImageSwipe";
 import Details from "../components/ProductDeatails/Details";
-
+import { useRoute } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 function ProductDetails() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const images = [
-    "https://i.ibb.co/2MDRvRN/product2.png",
-    "https://i.ibb.co/443Sqmt/product1.png",
-    "https://luehangs.site/pic-chat-app-images/beautiful-beautiful-woman-beauty-9763.jpg",
-    "https://i.ibb.co/2MDRvRN/product2.png",
+  const route = useRoute();
+  const { id } = route.params;
 
-    // Add more image URLs here
-  ];
+  const products = useSelector((state) => state.products.products);
+  const product = products.filter((product) => product._id === id)[0];
+
   const renderDots = () => {
-    return images.map((_, index) => (
+    return product.img.map((_, index) => (
       <View
         key={index}
         style={[
@@ -29,10 +28,10 @@ function ProductDetails() {
       <ImageSwipe
         currentIndex={currentIndex}
         setCurrentIndex={setCurrentIndex}
-        images={images}
+        images={product?.img}
       />
       <View style={styles.dotsContainer}>{renderDots()}</View>
-      <Details />
+      <Details product={product} />
     </View>
   );
 }
