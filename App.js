@@ -19,6 +19,8 @@ import { TouchableOpacity } from "react-native";
 import Login from "./screens/Login";
 import OtpVerification from "./screens/OtpVerfication";
 import AfterVerification from "./screens/AfterVerification";
+import Address from "./screens/Address";
+import AddressInput from "./screens/AddressInput";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -235,6 +237,8 @@ export default function App() {
               }}
             />
             <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Shipping Addresses" component={Address} />
+            <Stack.Screen name="Shipping Address" component={AddressInput} />
             <Stack.Screen
               name="OtpVerification"
               component={OtpVerification}
