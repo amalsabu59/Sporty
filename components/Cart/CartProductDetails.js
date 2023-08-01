@@ -1,8 +1,49 @@
 import React from "react";
 import { Image, View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; // Import Ionicons from Expo
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../redux/slices/cartSlice";
 
-function CartProductDetails({ imageUri, title, quantity, price }) {
+function CartProductDetails({ id, imageUri, title, quantity, price }) {
+  const userId = useSelector((state) => state.user.currentUser?._id);
+  const cartStore = useSelector((state) => state.cart.cart);
+  const dispatch = useDispatch();
+  const formattedCart = {
+    userId: userId,
+    products: [],
+  };
+
+  cartStore?.forEach((item) => {
+    const formattedData = {
+      productId: item.details._id,
+      size: item.size,
+      quantity: item.quantity,
+    };
+    formattedCart.products.push(formattedData);
+  });
+
+  const changeQuantity = (id, type) => {
+    const foundCart = formattedCart.products.find(
+      (product) => product.productId === id
+    );
+
+    if (foundCart && type === "add") {
+      foundCart.quantity += 1;
+    }
+    if (foundCart && type === "remove") {
+      if (foundCart.quantity > 1) {
+        foundCart.quantity -= 1;
+      } else {
+        // If quantity is 1 and type is "remove", remove the item from the formattedCart.products array
+        formattedCart.products = formattedCart.products.filter(
+          (product) => product.productId !== id
+        );
+      }
+    }
+    // formattedCart.products.push(product);
+    dispatch(addToCart(formattedCart));
+  };
+
   return (
     <View style={styles.root}>
       <View style={styles.container}>
@@ -18,11 +59,17 @@ function CartProductDetails({ imageUri, title, quantity, price }) {
           <Text style={styles.productTitle}>{title}</Text>
           <Text style={styles.sizeText}>Size: L</Text>
           <View style={styles.buttonAndPriceContainer}>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => changeQuantity(id, "remove")}
+            >
               <Ionicons name="remove" size={24} color="#9B9B9B" />
             </TouchableOpacity>
-            <Text style={styles.productTitle}> 1</Text>
-            <TouchableOpacity style={styles.button}>
+            <Text style={styles.productTitle}> {quantity}</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => changeQuantity(id, "add")}
+            >
               <Ionicons name="add" size={24} color="#9B9B9B" />
             </TouchableOpacity>
             <View>

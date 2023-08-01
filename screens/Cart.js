@@ -4,6 +4,10 @@ import { StyleSheet } from "react-native";
 import { FlatList } from "react-native";
 import CustomButton from "../components/UI/CustomButton";
 import { Dimensions } from "react-native";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCartItems } from "../redux/slices/cartSlice";
+import { useNavigation } from "@react-navigation/native";
 
 const DATA = [
   {
@@ -43,29 +47,43 @@ const DATA = [
 
 function Cart() {
   const SCREEN_HEIGHT = Dimensions.get("window").height;
+  const userStore = useSelector((state) => state.user);
+  const cartStore = useSelector((state) => state.cart.cart);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
 
+  useEffect(() => {
+    dispatch(getCartItems(userStore?.currentUser?._id));
+  }, [userStore?.currentUser?._id]);
+
+  const totalAmount =
+    cartStore?.reduce((acc, item) => acc + item.details.price, 0) || 0;
   return (
     <View style={styles.root}>
       <View style={[styles.cartDetails]}>
         <FlatList
-          data={DATA}
+          data={cartStore}
           renderItem={({ item }) => (
             <CartProductDetails
-              title={item.name}
-              price={item.price}
+              title={item.details.title}
+              price={item.details.price}
               quantity={item.quantity}
-              imageUri={item.imageUri}
+              imageUri={item.details.img[0]}
+              id={item.details._id}
             />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.details._id}
         />
       </View>
       <View style={styles.textWrapper}>
         <Text style={styles.totalAmountLabel}>Total amount</Text>
-        <Text style={styles.totalAmountPrice}>123$</Text>
+        <Text style={styles.totalAmountPrice}>{totalAmount} $</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <CustomButton text="Checkout" />
+        <CustomButton
+          text="Checkout"
+          onPress={() => navigation.navigate("Shipping Addresses")}
+        />
       </View>
     </View>
   );

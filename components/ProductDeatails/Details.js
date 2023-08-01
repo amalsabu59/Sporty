@@ -2,26 +2,60 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "react-native";
 import { View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import BottomHalfModal from "../Modal/BottomHalfModal";
 import { Button } from "react-native";
 import Login from "../../screens/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { closeLoginModal, openLoginModal } from "../../redux/slices/loginSlice";
+import { addToCart } from "../../redux/slices/cartSlice";
 function Details({ product }) {
   const [sizeSelected, setSizeSeleted] = useState("XL");
 
   const modalState = useSelector((state) => state.user.loginModal);
   const isCurrentUser = useSelector((state) => state.user.currentUser?._id);
+  const cartStore = useSelector((state) => state.cart.cart);
   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch(closeLoginModal());
   };
+
+  const formattedCart = {
+    userId: isCurrentUser,
+    products: [],
+  };
+
+  cartStore?.forEach((item) => {
+    const formattedData = {
+      productId: item.details._id,
+      size: item.size,
+      quantity: item.quantity,
+    };
+    formattedCart.products.push(formattedData);
+  });
+
   const addtoCart = (id) => {
     if (!isCurrentUser) {
       dispatch(openLoginModal());
     }
+    const foundCart = formattedCart.products.find(
+      (product) => product.productId === id
+    );
+
+    if (foundCart) {
+      foundCart.quantity += 1;
+      foundCart.size = sizeSelected;
+    } else {
+      const product = {
+        productId: id,
+        size: sizeSelected,
+        quantity: 1,
+      };
+      formattedCart.products.push(product);
+    }
+    dispatch(addToCart(formattedCart));
+    // console.log(formattedCart);
   };
   return (
     <View style={styles.container}>
