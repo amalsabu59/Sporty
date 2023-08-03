@@ -10,6 +10,34 @@ export const getAddresses = createAsyncThunk("address", async (id) => {
   }
 });
 
+export const addAddress = createAsyncThunk("address/add", async (data) => {
+  try {
+    const response = await axios.post(
+      `/address/${data.userId}`,
+      JSON.stringify(data.formData)
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    // throw error; // Rethrow the error to be caught in the rejected action
+  }
+});
+export const updateAddress = createAsyncThunk(
+  "address/update",
+  async (data) => {
+    try {
+      const response = await axios.put(
+        `/address/${data.userId}`,
+        JSON.stringify(data.formData)
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      // throw error; // Rethrow the error to be caught in the rejected action
+    }
+  }
+);
+
 export const createFormData = (data) => {
   return {
     type: "address/createFormData",
@@ -48,6 +76,26 @@ const addressSlice = createSlice({
       state.status = "success";
     },
     [getAddresses.rejected]: (state, action) => {
+      state.status = "failed";
+    },
+    [addAddress.pending]: (state) => {
+      state.status = "loading";
+    },
+    [addAddress.fulfilled]: (state, { payload }) => {
+      state.addresses = payload; // Update the currentUser state with the retrieved data
+      state.status = "success";
+    },
+    [addAddress.rejected]: (state, action) => {
+      state.status = "failed";
+    },
+    [updateAddress.pending]: (state) => {
+      state.status = "loading";
+    },
+    [updateAddress.fulfilled]: (state, { payload }) => {
+      state.addresses = payload; // Update the currentUser state with the retrieved data
+      state.status = "success";
+    },
+    [updateAddress.rejected]: (state, action) => {
       state.status = "failed";
     },
   },

@@ -17,6 +17,7 @@ function Details({ product }) {
   const isCurrentUser = useSelector((state) => state.user.currentUser?._id);
   const cartStore = useSelector((state) => state.cart.cart);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const closeModal = () => {
     dispatch(closeLoginModal());
   };
@@ -38,23 +39,26 @@ function Details({ product }) {
   const addtoCart = (id) => {
     if (!isCurrentUser) {
       dispatch(openLoginModal());
-    }
-    const foundCart = formattedCart.products.find(
-      (product) => product.productId === id
-    );
-
-    if (foundCart) {
-      foundCart.quantity += 1;
-      foundCart.size = sizeSelected;
     } else {
-      const product = {
-        productId: id,
-        size: sizeSelected,
-        quantity: 1,
-      };
-      formattedCart.products.push(product);
+      navigation.navigate("Cart");
+      const foundCart = formattedCart.products.find(
+        (product) => product.productId === id
+      );
+
+      if (foundCart) {
+        foundCart.quantity += 1;
+        foundCart.size = sizeSelected;
+      } else {
+        const product = {
+          productId: id,
+          size: sizeSelected,
+          quantity: 1,
+        };
+        formattedCart.products.push(product);
+      }
+      dispatch(addToCart(formattedCart));
     }
-    dispatch(addToCart(formattedCart));
+
     // console.log(formattedCart);
   };
   return (

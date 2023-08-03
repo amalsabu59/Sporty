@@ -11,7 +11,16 @@ import { useDispatch } from "react-redux";
 import { createFormData } from "../../redux/slices/addressSlice";
 import { useNavigation } from "@react-navigation/native";
 
-function AddressCard({ _id, name, address, city, state, zipcode, phone }) {
+function AddressCard({
+  _id,
+  user_id,
+  name,
+  address,
+  city,
+  state,
+  zipcode,
+  phone,
+}) {
   const [selected, setSelected] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -19,6 +28,7 @@ function AddressCard({ _id, name, address, city, state, zipcode, phone }) {
     dispatch(
       createFormData({
         _id,
+        user_id,
         name,
         address,
         city,
