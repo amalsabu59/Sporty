@@ -1,17 +1,31 @@
+import { useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AddressCard from "../components/Address/AddressCard";
 import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../components/UI/CustomButton";
+import { useDispatch, useSelector } from "react-redux";
+import { getAddresses } from "../redux/slices/addressSlice";
 
 function Address() {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.user.currentUser._id);
+  useEffect(() => {
+    dispatch(getAddresses(userId));
+  }, []);
+
+  const addresses = useSelector((state) => state.address.addresses);
   return (
     <View>
-      <AddressCard />
+      {addresses.map((item) => {
+        return <AddressCard {...item} key={item._id} />;
+      })}
       {/* Plus button */}
       <TouchableOpacity
         style={styles.plusButtonContainer}
-        onPress={() => navigation.navigate("Shipping Address")}
+        onPress={() =>
+          navigation.navigate("Shipping Address", { isNewAddress: true })
+        }
       >
         <View style={styles.plusButton}>
           <Text style={styles.plusButtonText}>+</Text>

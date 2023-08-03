@@ -7,17 +7,39 @@ import {
   View,
 } from "react-native";
 import Checkbox from "expo-checkbox";
+import { useDispatch } from "react-redux";
+import { createFormData } from "../../redux/slices/addressSlice";
+import { useNavigation } from "@react-navigation/native";
 
-function AddressCard() {
+function AddressCard({ _id, name, address, city, state, zipcode, phone }) {
   const [selected, setSelected] = useState(false);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const editAddressHandler = () => {
+    dispatch(
+      createFormData({
+        _id,
+        name,
+        address,
+        city,
+        state,
+        zipcode,
+        phone,
+      })
+    );
+    navigation.navigate("Shipping Address");
+  };
   return (
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.card}>
           <View style={styles.textContainer}>
-            <Text style={styles.nameText}>Jane Doe</Text>
+            <Text style={styles.nameText}>{name}</Text>
             <Text style={styles.addressText}>
-              3 Newbridge Court Chino Hills, CA 91709, United States
+              {address}, {city}, {state}
+            </Text>
+            <Text style={styles.addressText}>
+              {zipcode} ,{phone}
             </Text>
             <TouchableOpacity style={styles.checkboxSelectionContiner}>
               <Checkbox
@@ -30,30 +52,10 @@ function AddressCard() {
               </Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.editButton}>
-            <Text style={styles.editButtonText}>Edit</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.container}>
-        <View style={styles.card}>
-          <View style={styles.textContainer}>
-            <Text style={styles.nameText}>Jane Doe</Text>
-            <Text style={styles.addressText}>
-              3 Newbridge Court Chino Hills, CA 91709, United States
-            </Text>
-            <TouchableOpacity style={styles.checkboxSelectionContiner}>
-              <Checkbox
-                value={selected}
-                onValueChange={() => setSelected((prev) => !prev)}
-                // color="black"
-              />
-              <Text style={styles.useAsShippingText}>
-                Use as the shipping address
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity style={styles.editButton}>
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={() => editAddressHandler(_id)}
+          >
             <Text style={styles.editButtonText}>Edit</Text>
           </TouchableOpacity>
         </View>

@@ -7,12 +7,13 @@ import {
   Animated,
   Platform,
 } from "react-native";
+import { useDispatch } from "react-redux";
+import { createFormData } from "../../redux/slices/addressSlice";
 
-function LabeledTextInput({ label, placeholder }) {
+function LabeledTextInput({ label, name, inputValue }) {
   const [isFocused, setIsFocused] = useState(false);
-  const [inputValue, setInputValue] = useState("");
   const inputRef = useRef(null);
-
+  const dispatch = useDispatch();
   const labelAnim = useRef(new Animated.Value(inputValue ? -20 : 0)).current;
 
   const handleFocus = () => {
@@ -33,8 +34,8 @@ function LabeledTextInput({ label, placeholder }) {
     }).start();
   };
 
-  const handleChangeText = (text) => {
-    setInputValue(text);
+  const handleChangeText = (text, name) => {
+    dispatch(createFormData({ [name]: text }));
   };
 
   return (
@@ -59,7 +60,7 @@ function LabeledTextInput({ label, placeholder }) {
           value={inputValue}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          onChangeText={handleChangeText}
+          onChangeText={(text) => handleChangeText(text, name)}
         />
       </View>
     </View>
