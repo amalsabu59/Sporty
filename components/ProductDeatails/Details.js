@@ -9,19 +9,24 @@ import { Button } from "react-native";
 import Login from "../../screens/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { closeLoginModal, openLoginModal } from "../../redux/slices/loginSlice";
-import { addToCart } from "../../redux/slices/cartSlice";
+import {
+  addToCart,
+  getCartItems,
+  selectedCartId,
+} from "../../redux/slices/cartSlice";
 function Details({ product }) {
   const [sizeSelected, setSizeSeleted] = useState("XL");
 
   const modalState = useSelector((state) => state.user.loginModal);
   const isCurrentUser = useSelector((state) => state.user.currentUser?._id);
   const cartStore = useSelector((state) => state.cart.cart);
+  const selectedId = useSelector((state) => state.cart.selectedCartId);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const closeModal = () => {
     dispatch(closeLoginModal());
   };
-
+  let isRequiredToAddtoCartAfterLogin = "";
   const formattedCart = {
     userId: isCurrentUser,
     products: [],
@@ -36,11 +41,34 @@ function Details({ product }) {
     formattedCart.products.push(formattedData);
   });
 
+  useEffect(() => {
+    if (cartStore?.length === 0 && isCurrentUser && selectedId) {
+      dispatch(getCartItems(isCurrentUser));
+      const foundCart = formattedCart.products.find(
+        (product) => product.productId === selectedId
+      );
+
+      if (foundCart) {
+        foundCart.quantity += 1;
+        foundCart.size = sizeSelected;
+      } else {
+        const product = {
+          productId: selectedId,
+          size: sizeSelected,
+          quantity: 1,
+        };
+        formattedCart.products.push(product);
+      }
+      dispatch(addToCart(formattedCart));
+    }
+  }, [isCurrentUser]);
   const addtoCart = (id) => {
     if (!isCurrentUser) {
       dispatch(openLoginModal());
+      dispatch(selectedCartId(id));
+
+      isRequiredToAddtoCartAfterLogin = id;
     } else {
-      navigation.navigate("Cart");
       const foundCart = formattedCart.products.find(
         (product) => product.productId === id
       );
@@ -57,6 +85,7 @@ function Details({ product }) {
         formattedCart.products.push(product);
       }
       dispatch(addToCart(formattedCart));
+      navigation.navigate("Cart");
     }
 
     // console.log(formattedCart);
@@ -94,7 +123,7 @@ function Details({ product }) {
         ))}
       </View>
       <Text style={styles.sizeAndPriceText}> Price</Text>
-      <Text style={styles.price}>{product.price} $</Text>
+      <Text style={styles.price}>{product.price} ₹</Text>
       <Text style={styles.priceDisclamer}> Price inclusive of all taxes</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity

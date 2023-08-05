@@ -22,13 +22,13 @@ function InputForm() {
       <LabeledTextInput
         label="City"
         name="city"
-        maxLength={20}
+        maxLength={30}
         inputValue={formData.city || ""}
       />
       <LabeledTextInput
         label="State/Province/Region"
         name="state"
-        maxLength={20}
+        maxLength={30}
         inputValue={formData.state || ""}
       />
       <LabeledTextInput

@@ -10,29 +10,39 @@ export const getCartItems = createAsyncThunk("/cart/get-cart/", async (id) => {
   }
 });
 
-
 export const addToCart = createAsyncThunk("/cart/add-cart", async (data) => {
-    try {
-      const response = await axios.post(`/cart/add-cart`, JSON.stringify(data));
-      return response.data;
-    } catch (error) {
-      // throw error; // Rethrow the error to be caught in the rejected action
-    }
-  });
+  try {
+    const response = await axios.post(`/cart/add-cart`, JSON.stringify(data));
+    return response.data;
+  } catch (error) {
+    // throw error; // Rethrow the error to be caught in the rejected action
+  }
+});
 
+export const selectedCartId = (id) => {
+  return {
+    type: "cart/selectedCartId",
+    payload: id, // Add the payload to carry the data
+  };
+};
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
+    selectedCartId: "",
     status: "",
     cart: [],
   },
-  reducers: {},
+  reducers: {
+    selectedCartId: (state, action) => {
+      state.selectedCartId = action.payload;
+    },
+  },
   extraReducers: {
     [getCartItems.pending]: (state) => {
       state.status = "loading";
     },
     [getCartItems.fulfilled]: (state, { payload }) => {
-      state.cart = payload; // Update the currentUser state with the retrieved data
+      state.cart = payload || []; // Update the currentUser state with the retrieved data
       state.status = "success";
     },
     [getCartItems.rejected]: (state, action) => {
@@ -40,15 +50,15 @@ const cartSlice = createSlice({
     },
 
     [addToCart.pending]: (state) => {
-        state.status = "loading";
-      },
-      [addToCart.fulfilled]: (state, { payload }) => {
-        state.cart = payload; // Update the currentUser state with the retrieved data
-        state.status = "success";
-      },
-      [addToCart.rejected]: (state, action) => {
-        state.status = "failed";
-      },
+      // state.status = "loading";
+    },
+    [addToCart.fulfilled]: (state, { payload }) => {
+      state.cart = payload; // Update the currentUser state with the retrieved data
+      // state.status = "success";
+    },
+    [addToCart.rejected]: (state, action) => {
+      // state.status = "failed";
+    },
   },
 });
 

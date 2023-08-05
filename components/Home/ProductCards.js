@@ -11,10 +11,11 @@ import { RFValue } from "react-native-responsive-fontsize";
 import { Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import LoadingOverlay from "../UI/LoadingOverlay";
 const ProductCard = ({ products }) => {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
-
+  const loading = useSelector((state) => state.products.status);
   const navigation = useNavigation();
   function DescriptionContainer(text = "Custom Men’s Training shoes") {
     return (
@@ -28,6 +29,11 @@ const ProductCard = ({ products }) => {
   const handleOnPress = (id) => {
     navigation.navigate("ProductDetails", { id });
   };
+
+  if (loading === "loading") {
+    return <LoadingOverlay />;
+  }
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.row}>
@@ -48,7 +54,7 @@ const ProductCard = ({ products }) => {
 
                 <Text style={styles.productNameText}>{product.title} </Text>
                 {DescriptionContainer(product.desc)}
-                <Text style={styles.priceText}>$ {product.price}</Text>
+                <Text style={styles.priceText}>₹ {product.price}</Text>
               </Pressable>
             );
           })}
@@ -56,6 +62,7 @@ const ProductCard = ({ products }) => {
     </ScrollView>
   );
 };
+export default ProductCard;
 
 const styles = StyleSheet.create({
   container: {
@@ -111,5 +118,3 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
 });
-
-export default ProductCard;

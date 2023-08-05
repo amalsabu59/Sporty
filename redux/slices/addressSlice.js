@@ -49,10 +49,17 @@ export const clearFormData = () => {
     type: "address/clearFormData",
   };
 };
+export const selectedAddress = (id) => {
+  return {
+    type: "address/selectedAddress",
+    payload: id, // Add the payload to carry the data
+  };
+};
 const addressSlice = createSlice({
   name: "address",
   initialState: {
     status: "",
+    selectedAddress: "",
     addresses: [],
     formData: {
       formChanged: true,
@@ -65,6 +72,9 @@ const addressSlice = createSlice({
     },
     clearFormData: (state) => {
       state.formData.values = {};
+    },
+    selectedAddress: (state, action) => {
+      state.selectedAddress = action.payload;
     },
   },
   extraReducers: {
@@ -82,7 +92,7 @@ const addressSlice = createSlice({
       state.status = "loading";
     },
     [addAddress.fulfilled]: (state, { payload }) => {
-      state.addresses = payload; // Update the currentUser state with the retrieved data
+      state.addresses = payload || []; // Update the currentUser state with the retrieved data
       state.status = "success";
     },
     [addAddress.rejected]: (state, action) => {
