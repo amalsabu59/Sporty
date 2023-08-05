@@ -7,8 +7,11 @@ import {
   View,
 } from "react-native";
 import Checkbox from "expo-checkbox";
-import { useDispatch } from "react-redux";
-import { createFormData } from "../../redux/slices/addressSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createFormData,
+  selectedAddress,
+} from "../../redux/slices/addressSlice";
 import { useNavigation } from "@react-navigation/native";
 
 function AddressCard({
@@ -21,9 +24,11 @@ function AddressCard({
   zipcode,
   phone,
 }) {
-  const [selected, setSelected] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const selectedAddressId = useSelector(
+    (state) => state.address.selectedAddress
+  );
   const editAddressHandler = () => {
     dispatch(
       createFormData({
@@ -51,16 +56,16 @@ function AddressCard({
             <Text style={styles.addressText}>
               {zipcode} ,{phone}
             </Text>
-            <TouchableOpacity style={styles.checkboxSelectionContiner}>
+            <View style={styles.checkboxSelectionContiner}>
               <Checkbox
-                value={selected}
-                onValueChange={() => setSelected((prev) => !prev)}
+                value={selectedAddressId === _id ? selectedAddressId : null}
+                onValueChange={() => dispatch(selectedAddress(_id))}
                 // color="black"
               />
               <Text style={styles.useAsShippingText}>
                 Use as the shipping address
               </Text>
-            </TouchableOpacity>
+            </View>
           </View>
           <TouchableOpacity
             style={styles.editButton}

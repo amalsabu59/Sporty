@@ -7,41 +7,70 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAddresses } from "../redux/slices/addressSlice";
 import axios from ".././axios";
 import RazorpayCheckout from "react-native-razorpay";
+import { addOrders } from "../redux/slices/ordersSlice";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
+import { useToast } from "react-native-toast-notifications";
 function Address() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.user.currentUser._id);
+  const user = useSelector((state) => state.user.currentUser);
+  const cartStore = useSelector((state) => state.cart.cart);
+  const loading = useSelector((state) => state.address.status);
+  const toast = useToast();
+  const totalAmount =
+    cartStore?.reduce(
+      (acc, item) => acc + item.details.price * item.quantity,
+      0
+    ) || 0;
   useEffect(() => {
-    dispatch(getAddresses(userId));
+    dispatch(getAddresses(user._id));
   }, []);
 
-  const addresses = useSelector((state) => state.address.addresses);
+  const addressStore = useSelector((state) => state.address);
 
   const paymentHandler = async () => {
+    if (!addressStore.selectedAddress) {
+      return toast.show("Select An Address !", {
+        type: "danger",
+      });
+    }
     //Order Api: Call POST api with body like (username, id, price etc) to create an Order and use order_id in below options object
 
-    const { data } = await axios.post(`payment/orders`, { amount: 100 });
+    const { data } = await axios.post(`payment/orders`, {
+      amount: "1000",
+      userId: user._id,
+    });
+
     // const response = await .....
-    console.log(data);
+
     let options = {
       description: "Credits towards consultation",
       // image: imgURL, //require('../../images.png')
       currency: "INR", //In USD - only card option will exist rest(like wallet, UPI, EMI etc) will hide
       key: "rzp_test_7dO6FjFjKBG768",
-      amount: "5000",
+      amount: totalAmount.toFixed(0) * 100,
       name: "Sporty",
       order_id: "", //Replace this with an order_id(response.data.orderId) created using Orders API.
       prefill: {
-        email: "hasan@example.com",
-        contact: "9191919191",
-        name: "Hasan",
+        email: `${user.email}` || "",
+        contact: `${user.phone}` || "",
+        name: `${user.name}` || "",
       }, //if prefill is not provided then on razorpay screen it has to be manually entered.
       theme: { color: "#28B446" },
     };
     RazorpayCheckout.open(options)
       .then((data) => {
+        dispatch(
+          addOrders({
+            userId: user._id,
+            addressId: addressStore.selectedAddress,
+            paymentStatus: "captured",
+            amountPaid: totalAmount.toFixed(0),
+            paymentId: data.razorpay_payment_id,
+          })
+        );
         // handle success
-        console.log(`Success: ${data.razorpay_payment_id}`);
+        console.log(`Success: ${JSON.stringify(data)}`);
       })
       .catch((error) => {
         // handle failure
@@ -49,9 +78,12 @@ function Address() {
       });
   };
 
+  if (loading === "loading") {
+    return <LoadingOverlay />;
+  }
   return (
     <View>
-      {addresses?.map((item) => {
+      {addressStore?.addresses?.map((item) => {
         return <AddressCard {...item} key={item._id} />;
       })}
       {/* Plus button */}

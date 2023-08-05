@@ -10,7 +10,14 @@ import {
 import { useDispatch } from "react-redux";
 import { createFormData } from "../../redux/slices/addressSlice";
 
-function LabeledTextInput({ label, name, inputValue }) {
+function LabeledTextInput({
+  label,
+  name,
+  inputValue,
+  error = "",
+  inputMode = "text",
+  maxLength = 100,
+}) {
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef(null);
   const dispatch = useDispatch();
@@ -56,12 +63,15 @@ function LabeledTextInput({ label, name, inputValue }) {
         </Animated.Text>
         <TextInput
           ref={inputRef}
-          style={styles.input}
+          style={[styles.input, error && styles.inputError]}
           value={inputValue}
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChangeText={(text) => handleChangeText(text, name)}
+          inputMode={inputMode}
+          maxLength={maxLength}
         />
+        {/* {error && <Text style={styles.errorText}>{error}</Text>} */}
       </View>
     </View>
   );
@@ -94,6 +104,13 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     fontSize: 14,
     paddingLeft: 6,
+  },
+  inputError: {
+    borderColor: "red",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 14,
   },
 });
 
