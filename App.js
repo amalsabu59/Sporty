@@ -21,6 +21,8 @@ import OtpVerification from "./screens/OtpVerfication";
 import AfterVerification from "./screens/AfterVerification";
 import Address from "./screens/Address";
 import AddressInput from "./screens/AddressInput";
+import Orders from "./screens/Orders";
+import Success from "./screens/Success";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -43,6 +45,21 @@ export default function App() {
           component={Cart}
           options={{
             headerTitle: "Cart",
+          }}
+        />
+        {/* Add other screens related to the "Cart" tab if needed */}
+      </CartStack.Navigator>
+    );
+  };
+
+  const OrdersScreen = () => {
+    return (
+      <CartStack.Navigator>
+        <CartStack.Screen
+          name="MyOrders"
+          component={Orders}
+          options={{
+            headerTitle: "My Orders",
           }}
         />
         {/* Add other screens related to the "Cart" tab if needed */}
@@ -145,10 +162,10 @@ export default function App() {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={Profile}
+        name="My Orders"
+        component={OrdersScreen}
         options={{
-          tabBarLabel: () => null,
+          tabBarLabel: () => "",
           tabBarIcon: ({ color, size }) => {
             return <Ionicons name="apps" size={size} color={color} />;
           },
@@ -166,7 +183,7 @@ export default function App() {
       />
       <Tab.Screen
         name="Favorites"
-        component={Favorites}
+        component={Success}
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size }) => {
@@ -239,6 +256,11 @@ export default function App() {
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Shipping Addresses" component={Address} />
             <Stack.Screen name="Shipping Address" component={AddressInput} />
+            <Stack.Screen
+              name="Success"
+              component={Success}
+              options={{ headerTitle: "" }}
+            />
             <Stack.Screen
               name="OtpVerification"
               component={OtpVerification}
