@@ -11,7 +11,11 @@ import { addOrders } from "../redux/slices/ordersSlice";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import { useToast } from "react-native-toast-notifications";
 import { clearCart } from "../redux/slices/cartSlice";
-function Address() {
+function Address({ route }) {
+  const routeParams = route.params;
+  const cartId = routeParams?.cartId;
+  const isReordering = routeParams?.isReordering;
+  const amountPaid = routeParams?.amountPaid;
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
@@ -22,7 +26,9 @@ function Address() {
     cartStore?.reduce(
       (acc, item) => acc + item.details.price * item.quantity,
       0
-    ) || 0;
+    ) ||
+    amountPaid ||
+    0;
   useEffect(() => {
     dispatch(getAddresses(user._id));
   }, []);
@@ -63,6 +69,8 @@ function Address() {
       .then((data) => {
         dispatch(
           addOrders({
+            isReordering: isReordering,
+            cartIdForReordering: cartId,
             userId: user._id,
             addressId: addressStore.selectedAddress,
             paymentStatus: "captured",

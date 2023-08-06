@@ -10,6 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { getOrders } from "../redux/slices/ordersSlice";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
+import { useNavigation } from "@react-navigation/native";
 
 function Orders() {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ function Orders() {
   const orders = useSelector((state) => state.orders.orders);
   const loading = useSelector((state) => state.orders.status);
 
+  const navigation = useNavigation();
   useEffect(() => {
     dispatch(getOrders(userId));
   }, []);
@@ -24,6 +26,15 @@ function Orders() {
   if (loading === "loading") {
     return <LoadingOverlay />;
   }
+
+  const handleReorder = (cart) => {
+    const totalAmount = orders;
+    navigation.navigate("Shipping Addresses", {
+      cartId: cart.cartId,
+      amountPaid: cart.amountPaid,
+      isReordering: true,
+    });
+  };
   return (
     <ScrollView style={styles.container}>
       {orders &&
@@ -73,7 +84,10 @@ function Orders() {
                       Processing
                     </Text>
                   </View>
-                  <TouchableOpacity style={styles.button}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => handleReorder(item.orderDetails)}
+                  >
                     <Text style={styles.buttonText}>Reorder</Text>
                   </TouchableOpacity>
                 </View>

@@ -1,6 +1,6 @@
 // import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import store from "./redux/store";
 import Onboarding from "./screens/Onboarding";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
@@ -77,7 +77,9 @@ export default function App() {
       />
     </TouchableOpacity>
   );
-  const CartIcon = ({ cartItems = 1 }) => {
+  const CartIcon = ({ cartItems = 0 }) => {
+    const cartStore = useSelector((state) => state.cart.cart);
+    cartItems = cartStore.length;
     return (
       <TouchableOpacity onPress={() => console.log("Cart icon pressed")}>
         <View style={styles.cartContainer}>
