@@ -10,6 +10,7 @@ import RazorpayCheckout from "react-native-razorpay";
 import { addOrders } from "../redux/slices/ordersSlice";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import { useToast } from "react-native-toast-notifications";
+import { clearCart } from "../redux/slices/cartSlice";
 function Address() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -69,7 +70,10 @@ function Address() {
             paymentId: data.razorpay_payment_id,
           })
         );
+        dispatch(clearCart());
+        navigation.navigate("Success");
         // handle success
+
         console.log(`Success: ${JSON.stringify(data)}`);
       })
       .catch((error) => {

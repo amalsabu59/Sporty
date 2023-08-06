@@ -25,6 +25,12 @@ export const selectedCartId = (id) => {
     payload: id, // Add the payload to carry the data
   };
 };
+export const clearCart = () => {
+  return {
+    type: "cart/clearCart",
+  };
+};
+
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -35,6 +41,9 @@ const cartSlice = createSlice({
   reducers: {
     selectedCartId: (state, action) => {
       state.selectedCartId = action.payload;
+    },
+    clearCart: (state, action) => {
+      state.cart = [];
     },
   },
   extraReducers: {

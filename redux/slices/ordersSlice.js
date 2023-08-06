@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
-export const getOrders = createAsyncThunk("/orders/get-orders/", async (id) => {
+export const getOrders = createAsyncThunk("/order/", async (id) => {
   try {
-    const response = await axios.get(`/cart/get-cart/${id}`);
+    const response = await axios.get(`/order/${id}`);
     return response.data;
   } catch (error) {
     // throw error; // Rethrow the error to be caught in the rejected action
