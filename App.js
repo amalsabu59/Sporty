@@ -23,6 +23,7 @@ import Address from "./screens/Address";
 import AddressInput from "./screens/AddressInput";
 import Orders from "./screens/Orders";
 import Success from "./screens/Success";
+import OrderDetails from "./screens/OrderDetails";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -258,6 +259,7 @@ export default function App() {
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Shipping Addresses" component={Address} />
             <Stack.Screen name="Shipping Address" component={AddressInput} />
+            <Stack.Screen name="Order Details" component={OrderDetails} />
             <Stack.Screen
               name="Success"
               component={Success}

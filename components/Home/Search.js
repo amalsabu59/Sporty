@@ -38,17 +38,27 @@ const useSpeechToText = () => {
     }
   };
 
-  return { isListening, recognizedText, startSpeechToText, stopSpeechToText };
+  return {
+    isListening,
+    recognizedText,
+    startSpeechToText,
+    stopSpeechToText,
+    setRecognizedText,
+  };
 };
 
 const Search = ({ searchKeyWord, setSearchKeyWord }) => {
-  const { isListening, recognizedText, startSpeechToText, stopSpeechToText } =
-    useSpeechToText();
-  console.log(recognizedText, isListening);
-
+  const {
+    isListening,
+    recognizedText,
+    startSpeechToText,
+    stopSpeechToText,
+    setRecognizedText,
+  } = useSpeechToText();
   const handleSearchTextChange = (text) => {
     console.log(text);
     setSearchKeyWord(text);
+    if (text.length === 0) setRecognizedText("");
   };
 
   useEffect(() => {

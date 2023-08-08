@@ -40,7 +40,11 @@ function Orders() {
       {orders &&
         orders.map((item) => {
           return (
-            <View style={styles.card} key={item.orderDetails._id}>
+            <TouchableOpacity
+              style={styles.card}
+              key={item.orderDetails._id}
+              onPress={() => navigation.navigate("Order Details", { item })}
+            >
               <View style={styles.cardWrapper}>
                 <View style={styles.orderIdAndDateWrapper}>
                   <View>
@@ -56,7 +60,7 @@ function Orders() {
                 </View>
                 <View>
                   <Text style={styles.smallHeader}>
-                    Tracking number:
+                    Tracking number:{" "}
                     <Text style={{ color: "#222" }}>
                       {item.orderDetails.paymentId?.split("_")[1]}
                     </Text>
@@ -92,7 +96,7 @@ function Orders() {
                   </TouchableOpacity>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
           );
         })}
     </ScrollView>
@@ -128,7 +132,7 @@ const styles = StyleSheet.create({
     fontFamily: "sans-serif",
     textAlign: "center",
     fontFamily: "Microsoft Sans Serif",
-    fontSize: 16,
+    fontSize: 14,
     fontStyle: "normal",
     fontWeight: "400",
     lineHeight: 20,
