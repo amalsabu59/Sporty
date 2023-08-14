@@ -15,3 +15,26 @@ web-build/
 
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
+
+
+# React Native / Android specific folders
+android/
+__generated__/
+node_modules/
+*.iml
+*.apk
+*.ap_
+
+# React Native / iOS specific folders
+ios/Pods/
+ios/Podfile.lock
+ios/build/
+ios/Pods.xcodeproj/xcuserdata/
+
+# React Native / general files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ...other rules...
