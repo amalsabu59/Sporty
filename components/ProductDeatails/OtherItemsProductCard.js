@@ -12,20 +12,14 @@ import { Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import LoadingOverlay from "../UI/LoadingOverlay";
-const ProductCard = ({ products }) => {
+
+const OtherItemsProductCard = () => {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const loading = useSelector((state) => state.products.status);
+  const products = useSelector((state) => state.products.products);
   const navigation = useNavigation();
-  function DescriptionContainer(text = "Custom Men’s Training shoes") {
-    return (
-      <>
-        {windowWidth > 300 ? (
-          <Text style={styles.descriptionText}>{text}</Text>
-        ) : null}
-      </>
-    );
-  }
+
   const handleOnPress = (id) => {
     navigation.navigate("ProductDetails", { id });
   };
@@ -35,68 +29,78 @@ const ProductCard = ({ products }) => {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.row}>
+    <View style={styles.root}>
+      <Text style={styles.heading}>You can also like this</Text>
+      <ScrollView
+        style={styles.container}
+        horizontal
+        contentContainerStyle={styles.horizontalScrollContainer}
+      >
         {products &&
-          products.map((product) => {
-            return (
-              <Pressable
-                key={product._id}
-                style={styles.card}
-                android_ripple
-                onPress={() => handleOnPress(product._id)}
-              >
-                <Image
-                  source={{ uri: product.img[0] }}
-                  resizeMode="contain"
-                  style={styles.image}
-                />
-
-                <Text style={styles.productNameText}>{product.title} </Text>
-                {DescriptionContainer(product.desc)}
+          products.map((product) => (
+            <Pressable
+              key={product._id}
+              style={styles.card}
+              android_ripple
+              onPress={() => handleOnPress(product._id)}
+            >
+              {/* <View style={styles.card}> */}
+              <Image
+                source={{ uri: product.img[0] }}
+                resizeMode="contain"
+                style={styles.image}
+              />
+              {/* </View> */}
+              <View style={styles.textContainer}>
+                <Text style={styles.productNameText}>{product.title}</Text>
+                <Text style={styles.descriptionText}>{product.desc}</Text>
                 <Text style={styles.priceText}>₹ {product?.price}</Text>
-              </Pressable>
-            );
-          })}
-      </View>
-    </ScrollView>
+              </View>
+            </Pressable>
+          ))}
+      </ScrollView>
+    </View>
   );
 };
-export default ProductCard;
 
 const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
+  root: {
+    margin: 20,
   },
-  row: {
+
+  container: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginHorizontal: 16,
-    // gap: 10,
-    flexWrap: "wrap",
+    // paddingHorizontal: 16,
+  },
+  horizontalScrollContainer: {
+    alignItems: "center",
   },
   card: {
     borderRadius: 8,
-    marginBottom: "18%",
+    marginHorizontal: 8,
     backgroundColor: "#F2F2F2",
     shadowColor: "#000",
     shadowOpacity: 0.08,
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 4,
-    width: "45%",
-    height: "20%",
-    aspectRatio: 1, // Maintain a square shape
-  },
-  imageContainer: {
-    // width:
+    width: 200, // Adjust as needed
     aspectRatio: 1,
-    overflow: "hidden",
-    borderRadius: 8,
+  },
+  textContainer: {
+    backgroundColor: "#FFFFFF",
+    height: "100%",
   },
   image: {
     width: "100%",
-    height: "100%",
+    height: "60%",
     borderRadius: 8,
+  },
+  heading: {
+    margin: 5,
+    color: "#000000",
+    fontFamily: "sans-serif",
+    fontSize: 14,
+    fontWeight: "bold",
   },
   productNameText: {
     marginTop: 5,
@@ -118,3 +122,5 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
 });
+
+export default OtherItemsProductCard;

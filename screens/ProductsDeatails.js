@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import ImageSwipe from "../components/ProductDeatails/ImageSwipe";
 import Details from "../components/ProductDeatails/Details";
 import { useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import OtherItemsProductCard from "../components/ProductDeatails/OtherItemsProductCard";
 function ProductDetails() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const route = useRoute();
@@ -24,7 +25,7 @@ function ProductDetails() {
     ));
   };
   return (
-    <View style={styles.root}>
+    <ScrollView style={styles.root}>
       <ImageSwipe
         currentIndex={currentIndex}
         setCurrentIndex={setCurrentIndex}
@@ -32,7 +33,8 @@ function ProductDetails() {
       />
       <View style={styles.dotsContainer}>{renderDots()}</View>
       <Details product={product} />
-    </View>
+      <OtherItemsProductCard />
+    </ScrollView>
   );
 }
 

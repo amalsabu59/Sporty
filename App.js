@@ -24,6 +24,8 @@ import AddressInput from "./screens/AddressInput";
 import Orders from "./screens/Orders";
 import Success from "./screens/Success";
 import OrderDetails from "./screens/OrderDetails";
+import FeedBackList from "./screens/FeedBackList";
+import MyProfile from "./screens/MyProfile";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -46,6 +48,20 @@ export default function App() {
           component={Cart}
           options={{
             headerTitle: "Cart",
+          }}
+        />
+        {/* Add other screens related to the "Cart" tab if needed */}
+      </CartStack.Navigator>
+    );
+  };
+  const MyProfileScreen = () => {
+    return (
+      <CartStack.Navigator>
+        <CartStack.Screen
+          name="profile"
+          component={MyProfile}
+          options={{
+            headerTitle: "My Profile",
           }}
         />
         {/* Add other screens related to the "Cart" tab if needed */}
@@ -185,8 +201,8 @@ export default function App() {
         }}
       />
       <Tab.Screen
-        name="Favorites"
-        component={Success}
+        name="My Profile"
+        component={MyProfileScreen}
         options={{
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size }) => {
@@ -260,6 +276,8 @@ export default function App() {
             <Stack.Screen name="Shipping Addresses" component={Address} />
             <Stack.Screen name="Shipping Address" component={AddressInput} />
             <Stack.Screen name="Order Details" component={OrderDetails} />
+            <Stack.Screen name="Select product" component={FeedBackList} />
+
             <Stack.Screen
               name="Success"
               component={Success}

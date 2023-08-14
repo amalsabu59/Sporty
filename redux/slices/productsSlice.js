@@ -10,6 +10,21 @@ export const getProducts = createAsyncThunk("products", async (data) => {
     // throw error; // Rethrow the error to be caught in the rejected action
   }
 });
+export const updateRating = createAsyncThunk(
+  "/products/update-ratings",
+  async (data) => {
+    try {
+      const response = await axios.post(
+        `/products/update-ratings/${data.id}`,
+        data.data
+      );
+      console.log("response: " + JSON.stringify(response));
+      return response.data;
+    } catch (error) {
+      // throw error; // Rethrow the error to be caught in the rejected action
+    }
+  }
+);
 
 const productsSlice = createSlice({
   name: "products",

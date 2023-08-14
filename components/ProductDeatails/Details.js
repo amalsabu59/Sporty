@@ -14,6 +14,7 @@ import {
   getCartItems,
   selectedCartId,
 } from "../../redux/slices/cartSlice";
+import Rating from "./Rating";
 function Details({ product }) {
   const [sizeSelected, setSizeSeleted] = useState("XL");
 
@@ -90,6 +91,18 @@ function Details({ product }) {
 
     // console.log(formattedCart);
   };
+
+  const calculateAverageRating = (ratingArray) => {
+    if (ratingArray.length === 0) {
+      return 0;
+    }
+
+    const sum = ratingArray.reduce((total, rating) => total + rating, 0);
+    const average = sum / ratingArray.length;
+
+    return average;
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -98,6 +111,10 @@ function Details({ product }) {
       <View>
         <Text style={styles.productDescriptionText}>{product.desc}</Text>
       </View>
+      <Rating
+        rating={calculateAverageRating(product.rating)}
+        ratingsCount={product?.rating.length}
+      />
       <Text style={styles.sizeAndPriceText}> Size</Text>
       <View style={styles.sizeAndPriceContainer}>
         {product.size.map((size, index) => (
@@ -169,16 +186,16 @@ const styles = StyleSheet.create({
     // marginVertical: 1,
   },
   sizeAndPriceText: {
-    marginVertical: 8,
+    marginVertical: 5,
     fontFamily: "sans-serif",
     fontSize: 14,
     fontWeight: 600,
   },
   sizeSelection: {
-    marginTop: 6,
+    marginTop: 3,
   },
   selectedSize: {
-    marginVertical: 6,
+    marginVertical: 3,
     width: 44,
     height: 44,
     borderRadius: 50,
@@ -188,7 +205,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   size: {
-    marginVertical: 6,
+    marginVertical: 3,
     width: 44,
     height: 44,
     borderRadius: 50,

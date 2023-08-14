@@ -19,13 +19,24 @@ export const addOrders = createAsyncThunk("/order/checkout", async (data) => {
   }
 });
 
+export const setSelectedProductId = (id) => {
+  return {
+    type: "orders/setSelectedProductId",
+    payload: id, // Add the payload to carry the data
+  };
+};
 const cartSlice = createSlice({
   name: "orders",
   initialState: {
     status: "",
     orders: [],
+    selectedProductId: "",
   },
-  reducers: {},
+  reducers: {
+    setSelectedProductId: (state, action) => {
+      state.selectedProductId = action.payload;
+    },
+  },
   extraReducers: {
     [getOrders.pending]: (state) => {
       state.status = "loading";

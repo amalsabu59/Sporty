@@ -15,7 +15,7 @@ function CartProductDetails({ id, imageUri, title, quantity, price }) {
 
   cartStore?.forEach((item) => {
     const formattedData = {
-      productId: item.details._id,
+      productId: item.details?._id,
       size: item.size,
       quantity: item.quantity,
     };

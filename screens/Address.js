@@ -24,7 +24,7 @@ function Address({ route }) {
   const toast = useToast();
   const totalAmount =
     cartStore?.reduce(
-      (acc, item) => acc + item.details.price * item.quantity,
+      (acc, item) => acc + item.details?.price * item.quantity,
       0
     ) ||
     amountPaid ||

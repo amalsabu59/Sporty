@@ -1,6 +1,19 @@
+import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-function OrderInfo() {
+function OrderInfo({ item }) {
+  // const { address, city, state } = addresses;
+  // console.log(address, city, state);
+  const navigation = useNavigation();
+  const handleReorder = () => {
+    navigation.navigate("Shipping Addresses", {
+      cartId: item.orderDetails.cartId,
+      amountPaid: item.orderDetails.amountPaid,
+      isReordering: true,
+    });
+  };
+
+  console.log(item);
   return (
     <View style={styles.card}>
       <View style={styles.cardWrapper}>
@@ -15,7 +28,7 @@ function OrderInfo() {
           </View>
           <View style={{ width: "65%" }}>
             <Text style={styles.smallHeader}>
-              Amal Sabu, Koovappally P.O , Kanjirappally
+              {item.address.address}, {item.address.city}, {item.address.state}
             </Text>
           </View>
         </View>
@@ -24,7 +37,9 @@ function OrderInfo() {
             <Text style={styles.smallHeader}>payment ID: </Text>
           </View>
           <View style={{ width: "55%" }}>
-            <Text style={styles.smallHeader}>DFSD43345SDFFGFDFG</Text>
+            <Text style={styles.smallHeader}>
+              {item.orderDetails.paymentId}
+            </Text>
           </View>
         </View>
         <View style={styles.buttonContainer}>
@@ -39,10 +54,16 @@ function OrderInfo() {
                 shadowColor: "transparent",
               },
             ]}
+            onPress={handleReorder}
           >
             <Text style={[styles.buttonText, { color: "#222" }]}>Reorder</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              navigation.navigate("Select product", { products: item.products })
+            }
+          >
             <Text style={styles.buttonText}>Leave Feedback</Text>
           </TouchableOpacity>
         </View>

@@ -51,24 +51,21 @@ function OrderDetails({ route }) {
           </View>
         </View>
         <View style={styles.productList}>
-          <FlatList
-            data={item.products}
-            renderItem={({ item }) => {
-              return (
-                <DetailedOrder
-                  title={item.title}
-                  price={item.price}
-                  quantity={item.quantity}
-                  imageUri={item.img[0]}
-                  // id={item._id}
-                />
-              );
-            }}
-            // keyExtractor={(item) => item.details._id}
-          />
+          {item.products.map((item) => {
+            return (
+              <DetailedOrder
+                key={item.id}
+                title={item.title}
+                price={item?.price}
+                quantity={item.quantity}
+                imageUri={item.img[0]}
+                id={item.id}
+              />
+            );
+          })}
         </View>
       </View>
-      <OrderInfo />
+      <OrderInfo item={item} />
     </ScrollView>
   );
 }
@@ -136,7 +133,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   productList: {
-    marginHorizontal: 25,
+    marginHorizontal: 20,
     marginBottom: 25,
   },
 });

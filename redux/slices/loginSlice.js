@@ -54,23 +54,33 @@ export const closeLoginModal = () => {
     type: "user/closeLoginModal",
   };
 };
-
+export const LogOut = () => {
+  return {
+    type: "LogOut",
+  };
+};
+const initalState = {
+  status: "",
+  otpForVerification: "",
+  currentUser: {
+    phone: "",
+  },
+  loginModal: false,
+};
 const userSlice = createSlice({
   name: "user",
-  initialState: {
-    status: "",
-    otpForVerification: "",
-    currentUser: {
-      phone: "",
-    },
-    loginModal: false,
-  },
+  initialState: initalState,
   reducers: {
     openLoginModal: (state) => {
       state.loginModal = true;
     },
     closeLoginModal: (state) => {
       state.loginModal = false;
+    },
+    LogOut: (state) => {
+      state.currentUser = {
+        phone: "",
+      };
     },
   },
   extraReducers: {

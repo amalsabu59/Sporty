@@ -34,7 +34,7 @@ function Cart() {
 
   const totalAmount =
     cartStore?.reduce(
-      (acc, item) => acc + item.details.price * item.quantity,
+      (acc, item) => acc + item.details?.price * item.quantity,
       0
     ) || 0;
   const modalState = useSelector((state) => state.user.loginModal);
@@ -70,14 +70,14 @@ function Cart() {
           data={cartStore}
           renderItem={({ item }) => (
             <CartProductDetails
-              title={item.details.title}
-              price={item.details.price}
+              title={item.details?.title}
+              price={item.details?.price}
               quantity={item.quantity}
-              imageUri={item.details.img[0]}
-              id={item.details._id}
+              imageUri={item.details?.img[0]}
+              id={item.details?._id}
             />
           )}
-          keyExtractor={(item) => item.details._id}
+          keyExtractor={(item) => item.details?._id}
         />
       </View>
       <View style={styles.textWrapper}>
