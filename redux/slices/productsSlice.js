@@ -25,15 +25,46 @@ export const updateRating = createAsyncThunk(
     }
   }
 );
-
+export const createFormData = (data) => {
+  return {
+    type: "products/createFormData",
+    payload: data, // Add the payload to carry the data
+  };
+};
+export const clearFormData = () => {
+  return {
+    type: "products/clearFormData",
+  };
+};
 const productsSlice = createSlice({
   name: "products",
   initialState: {
     selectedCartId: "",
     status: "",
     products: [],
+    formData: {
+      formChanged: true,
+      values: {
+        title: "",
+        desc: "",
+        size: [], // Initialize size as an empty array
+        categories: [], // Initialize size as an empty array
+        images: [], // Initialize
+        price: "",
+      },
+    },
   },
-  reducers: {},
+  reducers: {
+    createFormData: (state, action) => {
+      state.formData.values = { ...state.formData.values, ...action.payload };
+    },
+    clearFormData: (state) => {
+      state.formData.values = {};
+    },
+    selectedAddress: (state, action) => {
+      state.selectedAddress = action.payload;
+    },
+  },
   extraReducers: {
     [getProducts.pending]: (state) => {
       state.status = "loading";

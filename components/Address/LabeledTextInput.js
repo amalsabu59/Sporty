@@ -17,10 +17,10 @@ function LabeledTextInput({
   error = "",
   inputMode = "text",
   maxLength = 100,
+  handleChangeText,
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef(null);
-  const dispatch = useDispatch();
   const labelAnim = useRef(new Animated.Value(inputValue ? -20 : 0)).current;
 
   const handleFocus = () => {
@@ -39,10 +39,6 @@ function LabeledTextInput({
       duration: 200,
       useNativeDriver: false,
     }).start();
-  };
-
-  const handleChangeText = (text, name) => {
-    dispatch(createFormData({ [name]: text }));
   };
 
   return (

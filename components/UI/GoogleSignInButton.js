@@ -8,6 +8,7 @@ import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { closeLoginModal, login } from "../../redux/slices/loginSlice";
 import { useDispatch } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 // import React from "react";
 //web
 //366094365462-197oa06f3gvb7vc233snki83ktg9u94t.apps.googleusercontent.com
@@ -30,6 +31,7 @@ const GoogleSignInButton = ({
   });
 
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   useEffect(() => {
     handleEffect();
     console.log("I fire once");
@@ -43,10 +45,13 @@ const GoogleSignInButton = ({
         // console.log(response.authentication.accessToken);
         setToken(response.authentication.accessToken);
         getUserInfo(response.authentication.accessToken);
+        dispatch(closeLoginModal());
+        navigation.navigate("Cart");
       }
     } else {
       console.log("entering");
       dispatch(closeLoginModal());
+
       // dispatch(
       //   login({ email: user.email, name: user.given_name, isGoogleUser: true })
       // );

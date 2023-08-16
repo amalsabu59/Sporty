@@ -46,7 +46,10 @@ const ProfileComponent = () => {
           <Text style={styles.sectionTitle}>Shipping addresses</Text>
           <Text style={styles.sectionDescription}>View Addresses</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.sectionContainer}>
+        <TouchableOpacity
+          style={styles.sectionContainer}
+          onPress={() => navigation.navigate("Admin")}
+        >
           <Text style={styles.sectionTitle}>Admin</Text>
           <Text style={styles.sectionDescription}>Products,sales</Text>
         </TouchableOpacity>

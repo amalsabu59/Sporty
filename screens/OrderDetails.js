@@ -23,7 +23,8 @@ function OrderDetails({ route }) {
           <View style={styles.orderIdAndDateWrapper}>
             <View>
               <Text style={styles.smallHeader}>
-                Quantity: <Text style={{ color: "#222" }}> 3</Text>
+                Quantity:{" "}
+                <Text style={{ color: "#222" }}> {item.products?.length}</Text>
               </Text>
             </View>
             <View>
@@ -37,7 +38,7 @@ function OrderDetails({ route }) {
                   }}
                 >
                   {" "}
-                  112 ₹
+                  {item.orderDetails.amountPaid} ₹
                 </Text>
               </Text>
             </View>

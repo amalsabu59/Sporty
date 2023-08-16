@@ -26,6 +26,7 @@ import Success from "./screens/Success";
 import OrderDetails from "./screens/OrderDetails";
 import FeedBackList from "./screens/FeedBackList";
 import MyProfile from "./screens/MyProfile";
+import Admin from "./screens/Admin";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -277,6 +278,7 @@ export default function App() {
             <Stack.Screen name="Shipping Address" component={AddressInput} />
             <Stack.Screen name="Order Details" component={OrderDetails} />
             <Stack.Screen name="Select product" component={FeedBackList} />
+            <Stack.Screen name="Admin" component={Admin} />
 
             <Stack.Screen
               name="Success"
