@@ -23,35 +23,35 @@ function AddProductForm() {
     <View style={styles.container}>
       <LabeledTextInput
         handleChangeText={handleChangeText}
-        label="Product Name"
+        label="Product Name*"
         name="title"
         inputValue={formData.title || ""}
         maxLength={20}
       />
       <LabeledTextInput
         handleChangeText={handleChangeText}
-        label="Description"
+        label="Description*"
         name="desc"
         maxLength={30}
         inputValue={formData.desc || ""}
       />
       <LabeledTextInput
         handleChangeText={handleChangeText}
-        label="Size"
+        label="Size*"
         name="size"
         maxLength={15}
         inputValue={formData.size.join(",") || ""}
       />
       <LabeledTextInput
         handleChangeText={handleChangeText}
-        label="Category"
+        label="Category*"
         name="categories"
         maxLength={30}
         inputValue={formData.categories.join(",") || ""}
       />
       <LabeledTextInput
         handleChangeText={handleChangeText}
-        label="Price"
+        label="Price*"
         name="price"
         maxLength={7}
         inputMode={"tel"}

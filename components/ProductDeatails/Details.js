@@ -181,8 +181,9 @@ const styles = StyleSheet.create({
   sizeAndPriceContainer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    // justifyContent: "space-around",
     width: "65%",
+    gap: 10,
     // marginVertical: 1,
   },
   sizeAndPriceText: {
@@ -203,6 +204,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    gap: 0,
   },
   size: {
     marginVertical: 3,

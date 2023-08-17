@@ -3,7 +3,7 @@ import { Image, Text, View, TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-import { createFormData } from "../../redux/slices/productsSlice";
+import { createFormData, delProduct } from "../../redux/slices/productsSlice";
 
 function ProductsList({
   title,
@@ -13,7 +13,7 @@ function ProductsList({
   quantity,
   img,
   categories,
-  id,
+  _id,
   setActiveTab,
 }) {
   const navigation = useNavigation();
@@ -32,10 +32,14 @@ function ProductsList({
         quantity,
         size,
         images: img,
-        id,
+        id: _id,
       })
     );
     setActiveTab("Add");
+  };
+
+  const handleDelete = (id) => {
+    dispatch(delProduct(id));
   };
   return (
     <View style={styles.root} onPress={() => handleNavigateToProductDetails()}>
@@ -52,7 +56,7 @@ function ProductsList({
         <View style={styles.detailsWrapper}>
           <View style={styles.titleAndIconContainer}>
             <Text style={styles.productTitle}>{title}</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => handleDelete(_id)}>
               <Ionicons name="trash-outline" size={20} color="#9B9B9B" />
             </TouchableOpacity>
           </View>

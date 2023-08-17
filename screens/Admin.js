@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -23,7 +23,13 @@ import CustomButton from "../components/UI/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
 import ProductsList from "../components/Admin/ProductsList";
 // import { ScrollView } from "react-native-gesture-handler";
-import { createFormData } from "../redux/slices/productsSlice";
+import {
+  addProducts,
+  clearFormData,
+  createFormData,
+  editProducts,
+} from "../redux/slices/productsSlice";
+import { useToast } from "react-native-toast-notifications";
 const Admin = () => {
   const [uploading, setUploading] = useState(false);
   const [activeTab, setActiveTab] = useState("Add"); // Active tab state
@@ -32,6 +38,10 @@ const Admin = () => {
   const formData = useSelector((state) => state.products.formData);
   const dispatch = useDispatch();
   const [selectedImages, setSelectedImages] = useState(formData.values.images);
+
+  useEffect(() => {
+    if (activeTab === "View") dispatch(clearFormData());
+  }, [activeTab]);
   const handleImagePicker = async () => {
     try {
       ImagePicker.openPicker({
@@ -109,9 +119,31 @@ const Admin = () => {
 
     dispatch(createFormData({ ["images"]: formDataImages }));
   };
-
+  const toast = useToast();
   const handleAddProducts = () => {
-    console.log(formData.values.images);
+    if (
+      !formData.values?.title ||
+      !formData.values.desc ||
+      !formData.values.price ||
+      formData.values.categories.length === 0 ||
+      formData.values.size.length === 0 ||
+      formData.values.images.length === 0
+    ) {
+      return toast.show("* fields are mandatory!", {
+        type: "danger",
+      });
+    }
+
+    if (formData.values?.id) {
+      console.log("first");
+      dispatch(
+        editProducts({ data: formData.values, id: formData.values?.id })
+      );
+    } else {
+      dispatch(addProducts(formData.values));
+    }
+
+    setActiveTab("View");
   };
   return (
     <View style={styles.container}>
@@ -165,7 +197,6 @@ const Admin = () => {
               data={formData.values?.images}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item, index }) => {
-                console.log(item, "item");
                 return (
                   <View style={styles.imageRow}>
                     <TouchableOpacity

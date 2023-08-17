@@ -25,7 +25,7 @@ function Welcome() {
           <Ionicons name="notifications" size={22} color={"black"} />
         </View>
         <View style={styles.notificationCount}>
-          <Text style={styles.number}>2</Text>
+          <Text style={styles.number}>0</Text>
         </View>
       </View>
     </View>
