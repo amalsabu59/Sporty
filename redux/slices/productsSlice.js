@@ -63,6 +63,12 @@ export const createFormData = (data) => {
     payload: data, // Add the payload to carry the data
   };
 };
+export const selectedProductId = (id) => {
+  return {
+    type: "products/selectedProductId",
+    payload: id, // Add the payload to carry the data
+  };
+};
 export const clearFormData = () => {
   return {
     type: "products/clearFormData",
@@ -73,6 +79,7 @@ const productsSlice = createSlice({
   initialState: {
     selectedCartId: "",
     status: "",
+    selectedProductId: "",
     products: [],
     formData: {
       formChanged: true,
@@ -102,6 +109,9 @@ const productsSlice = createSlice({
     },
     selectedAddress: (state, action) => {
       state.selectedAddress = action.payload;
+    },
+    selectedProductId: (state, action) => {
+      state.selectedProductId = action.payload;
     },
   },
   extraReducers: {

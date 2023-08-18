@@ -14,7 +14,7 @@ function AfterVerification() {
   const navigation = useNavigation();
   const updateNameHandler = () => {
     dispatch(updateUserName({ id: currentUser._id, name }));
-    navigation.navigate("Cart");
+    navigation.navigate("ProductDetails");
   };
   return (
     <View style={styles.root}>

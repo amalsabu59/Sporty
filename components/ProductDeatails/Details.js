@@ -15,6 +15,7 @@ import {
   selectedCartId,
 } from "../../redux/slices/cartSlice";
 import Rating from "./Rating";
+import { selectedProductId } from "../../redux/slices/productsSlice";
 function Details({ product }) {
   const [sizeSelected, setSizeSeleted] = useState("XL");
 
@@ -42,33 +43,35 @@ function Details({ product }) {
     formattedCart.products.push(formattedData);
   });
 
-  useEffect(() => {
-    if (cartStore?.length === 0 && isCurrentUser && selectedId) {
-      dispatch(getCartItems(isCurrentUser));
-      const foundCart = formattedCart.products.find(
-        (product) => product.productId === selectedId
-      );
+  // useEffect(() => {
+  //   if (cartStore?.length === 0 && isCurrentUser && selectedId) {
+  //     dispatch(getCartItems(isCurrentUser));
+  //     const foundCart = formattedCart.products.find(
+  //       (product) => product.productId === selectedId
+  //     );
 
-      if (foundCart) {
-        foundCart.quantity += 1;
-        foundCart.size = sizeSelected;
-      } else {
-        const product = {
-          productId: selectedId,
-          size: sizeSelected,
-          quantity: 1,
-        };
-        formattedCart.products.push(product);
-      }
-      dispatch(addToCart(formattedCart));
-    }
-  }, [isCurrentUser]);
+  //     if (foundCart) {
+  //       foundCart.quantity += 1;
+  //       foundCart.size = sizeSelected;
+  //     } else {
+  //       const product = {
+  //         productId: selectedId,
+  //         size: sizeSelected,
+  //         quantity: 1,
+  //       };
+  //       formattedCart.products.push(product);
+  //     }
+  //     dispatch(addToCart(formattedCart));
+  //   }
+  // }, [isCurrentUser]);
+
   const addtoCart = (id) => {
     if (!isCurrentUser) {
+      dispatch(selectedProductId(id));
       dispatch(openLoginModal());
       dispatch(selectedCartId(id));
 
-      isRequiredToAddtoCartAfterLogin = id;
+      return;
     } else {
       const foundCart = formattedCart.products.find(
         (product) => product.productId === id
@@ -85,8 +88,8 @@ function Details({ product }) {
         };
         formattedCart.products.push(product);
       }
-      dispatch(addToCart(formattedCart));
       navigation.navigate("Cart");
+      dispatch(addToCart(formattedCart));
     }
 
     // console.log(formattedCart);

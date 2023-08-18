@@ -28,6 +28,16 @@ export const getCurrentUser = createAsyncThunk(
     }
   }
 );
+export const logOut = createAsyncThunk("auth/logOut", async () => {
+  try {
+    await AsyncStorage.removeItem("@currentUser");
+
+    return { phone: "" };
+  } catch (error) {
+    // Handle any errors during AsyncStorage retrieval
+    throw new Error("Error in Logout: " + error.message);
+  }
+});
 
 export const updateUserName = createAsyncThunk(
   "auth/update-name",
@@ -54,11 +64,7 @@ export const closeLoginModal = () => {
     type: "user/closeLoginModal",
   };
 };
-export const LogOut = () => {
-  return {
-    type: "LogOut",
-  };
-};
+
 const initalState = {
   status: "",
   otpForVerification: "",
@@ -76,11 +82,6 @@ const userSlice = createSlice({
     },
     closeLoginModal: (state) => {
       state.loginModal = false;
-    },
-    LogOut: (state) => {
-      state.currentUser = {
-        phone: "",
-      };
     },
   },
   extraReducers: {
@@ -125,6 +126,16 @@ const userSlice = createSlice({
       state.status = "success";
     },
     [updateUserName.rejected]: (state, action) => {
+      state.status = "failed";
+    },
+    [logOut.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [logOut.fulfilled]: (state, { payload }) => {
+      state.currentUser = payload;
+      state.status = "success";
+    },
+    [logOut.rejected]: (state, action) => {
       state.status = "failed";
     },
   },

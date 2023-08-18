@@ -298,7 +298,7 @@ export default function App() {
                 headerRight: () => (
                   <TouchableOpacity // Use TouchableOpacity instead of View
                     style={{ marginRight: 20 }}
-                    onPress={() => navigation.navigate("Cart")} // Wrap it inside an arrow function
+                    onPress={() => navigation.navigate("ProductDetails")} // Wrap it inside an arrow function
                   >
                     <Text style={{ color: "#28B446" }}>Skip</Text>
                   </TouchableOpacity>

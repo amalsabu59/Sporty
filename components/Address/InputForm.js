@@ -14,42 +14,42 @@ function InputForm() {
     <View style={styles.container}>
       <LabeledTextInput
         handleChangeText={handleChangeText}
-        label="Full name"
+        label="Full name*"
         name="name"
         maxLength={40}
         inputValue={formData.name || ""}
       />
       <LabeledTextInput
         handleChangeText={handleChangeText}
-        label="Address"
+        label="Address*"
         name="address"
         maxLength={40}
         inputValue={formData.address || ""}
       />
       <LabeledTextInput
         handleChangeText={handleChangeText}
-        label="City"
+        label="City*"
         name="city"
         maxLength={30}
         inputValue={formData.city || ""}
       />
       <LabeledTextInput
         handleChangeText={handleChangeText}
-        label="State/Province/Region"
+        label="State/Province/Region*"
         name="state"
         maxLength={30}
         inputValue={formData.state || ""}
       />
       <LabeledTextInput
         handleChangeText={handleChangeText}
-        label="Zip Code"
+        label="Zip Code*"
         name="zipcode"
         maxLength={15}
         inputValue={formData.zipcode || ""}
       />
       <LabeledTextInput
         handleChangeText={handleChangeText}
-        label="Phone"
+        label="Phone*"
         name="phone"
         inputValue={formData.phone || ""}
         inputMode={"tel"}

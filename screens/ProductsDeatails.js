@@ -7,8 +7,11 @@ import { useSelector } from "react-redux";
 import OtherItemsProductCard from "../components/ProductDeatails/OtherItemsProductCard";
 function ProductDetails() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const selectedProductId = useSelector(
+    (state) => state.products.selectedProductId
+  );
   const route = useRoute();
-  const { id } = route.params;
+  const id = route.params?.id || selectedProductId;
 
   const products = useSelector((state) => state.products.products);
   const product = products.filter((product) => product._id === id)[0];

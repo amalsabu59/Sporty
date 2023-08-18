@@ -46,7 +46,7 @@ const GoogleSignInButton = ({
         setToken(response.authentication.accessToken);
         getUserInfo(response.authentication.accessToken);
         dispatch(closeLoginModal());
-        navigation.navigate("Cart");
+        // navigation.navigate("Cart");
       }
     } else {
       console.log("entering");

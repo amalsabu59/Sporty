@@ -89,7 +89,6 @@ const Admin = () => {
     });
   };
   const uploadFile = async (file) => {
-    console.log(file);
     try {
       const fileName = new Date().getTime() + ".png";
       const storage = getStorage(app);

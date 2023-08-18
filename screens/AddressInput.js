@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import InputForm from "../components/Address/InputForm";
 import CustomButton from "../components/UI/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import {
   updateAddress,
 } from "../redux/slices/addressSlice";
 import { useEffect } from "react";
+import { useToast } from "react-native-toast-notifications";
 
 function AddressInput({ route, navigation }) {
   const isNewAddress = route.params?.isNewAddress || false;
@@ -20,8 +21,20 @@ function AddressInput({ route, navigation }) {
       dispatch(clearFormData());
     }
   }, [isNewAddress]);
+  const toast = useToast();
 
   const saveAddressHandler = () => {
+    if (
+      !formData.name ||
+      !formData.address ||
+      !formData.city ||
+      !formData.state ||
+      !formData.zipcode ||
+      !formData.phone
+    )
+      return toast.show("* fields are mandatory!", {
+        type: "danger",
+      });
     if (isNewAddress) {
       dispatch(addAddress({ formData, userId }));
     } else {
@@ -30,12 +43,12 @@ function AddressInput({ route, navigation }) {
     navigation.goBack();
   };
   return (
-    <View>
+    <ScrollView>
       <InputForm />
       <View style={{ margin: 32 }}>
         <CustomButton text="Save Address" onPress={saveAddressHandler} />
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

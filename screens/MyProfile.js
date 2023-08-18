@@ -3,20 +3,47 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useDispatch } from "react-redux";
-import { LogOut } from "../redux/slices/loginSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  logOut,
+  openLoginModal,
+  closeLoginModal,
+} from "../redux/slices/loginSlice";
+import { Alert } from "react-native";
+import BottomHalfModal from "../components/Modal/BottomHalfModal";
+import Login from "./Login";
 const ProfileComponent = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const isAdmin = useSelector((state) => state.user.currentUser?.isAdmin);
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const modalState = useSelector((state) => state.user.loginModal);
+  // console.log(isAdmin);
   const clearAsyncStorage = async () => {
     try {
-      dispatch(LogOut());
-      await AsyncStorage.clear();
-      navigation.navigate("Onboarding");
-      console.log("AsyncStorage cleared successfully.");
+      Alert.alert("Confirm Logout", "Are you sure you want to log out?", [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Logout",
+          onPress: async () => {
+            // await AsyncStorage.clear();
+            dispatch(logOut());
+            navigation.navigate("Onboarding");
+          },
+        },
+      ]);
     } catch (error) {
       console.error("Error clearing AsyncStorage:", error);
     }
+  };
+  const closeModal = () => {
+    dispatch(closeLoginModal());
+  };
+  const loginHanlder = () => {
+    dispatch(openLoginModal());
   };
   return (
     <View style={styles.container}>
@@ -27,8 +54,10 @@ const ProfileComponent = () => {
           style={styles.avatar}
         />
         <View style={styles.userInfo}>
-          <Text style={styles.name}>John Doe</Text>
-          <Text style={styles.email}>johndoe@example.com</Text>
+          <Text style={styles.name}>{currentUser.name || "User"}</Text>
+          <Text style={styles.email}>
+            {currentUser.phone || currentUser.email || ""}{" "}
+          </Text>
         </View>
       </View>
       <View style={styles.section}>
@@ -46,31 +75,58 @@ const ProfileComponent = () => {
           <Text style={styles.sectionTitle}>Shipping addresses</Text>
           <Text style={styles.sectionDescription}>View Addresses</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.sectionContainer}
-          onPress={() => navigation.navigate("Admin")}
-        >
-          <Text style={styles.sectionTitle}>Admin</Text>
-          <Text style={styles.sectionDescription}>Products,sales</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.sectionContainer,
-            {
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            },
-          ]}
-          onPress={() => clearAsyncStorage()}
-        >
-          <View>
-            <Text style={styles.sectionTitle}>Logout</Text>
-          </View>
-          <View>
-            <Ionicons name="log-out" size={20} color="#9B9B9B" />
-          </View>
-        </TouchableOpacity>
+        {isAdmin && (
+          <TouchableOpacity
+            style={styles.sectionContainer}
+            onPress={() => navigation.navigate("Admin")}
+          >
+            <Text style={styles.sectionTitle}>Admin</Text>
+            <Text style={styles.sectionDescription}>Products,sales</Text>
+          </TouchableOpacity>
+        )}
+        {currentUser._id && (
+          <TouchableOpacity
+            style={[
+              styles.sectionContainer,
+              {
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              },
+            ]}
+            onPress={() => clearAsyncStorage()}
+          >
+            <View>
+              <Text style={styles.sectionTitle}>Logout</Text>
+            </View>
+            <View>
+              <Ionicons name="log-out" size={20} color="#9B9B9B" />
+            </View>
+          </TouchableOpacity>
+        )}
+        {!currentUser._id && (
+          <TouchableOpacity
+            style={[
+              styles.sectionContainer,
+              {
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              },
+            ]}
+            onPress={() => loginHanlder()}
+          >
+            <View>
+              <Text style={styles.sectionTitle}>Login</Text>
+              <BottomHalfModal visible={modalState} onRequestClose={closeModal}>
+                <Login />
+              </BottomHalfModal>
+            </View>
+            <View>
+              <Ionicons name="log-in" size={20} color="#9B9B9B" />
+            </View>
+          </TouchableOpacity>
+        )}
 
         {/* Render orders here */}
         {/* You can map through the user's orders and display them */}

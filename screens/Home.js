@@ -63,11 +63,11 @@ function Home() {
           onPress={() => handleButtonPress("All")}
           selected={selectedCat === "All"}
         />
-        <CategoryButton
+        {/* <CategoryButton
           title="Trending"
           onPress={() => handleButtonPress("Trending")}
           selected={selectedCat === "Trending"}
-        />
+        /> */}
         <CategoryButton
           title="Men"
           onPress={() => handleButtonPress("Men")}
