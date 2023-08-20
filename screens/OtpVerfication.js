@@ -5,7 +5,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { useToast } from "react-native-toast-notifications";
 import { login } from "../redux/slices/loginSlice";
-function OtpVerification() {
+function OtpVerification({ route }) {
+  const loginFrom = route.params.loginFrom;
   const [inputOtp, setInputOtp] = useState([]);
   const otpInputRefs = useRef([]);
   const toast = useToast();
@@ -45,7 +46,7 @@ function OtpVerification() {
       return;
     }
     dispatch(login({ phone: verifiedPhone }));
-    navigation.navigate("afterVerification");
+    navigation.navigate("afterVerification", { loginFrom });
   };
   return (
     <View style={styles.root}>

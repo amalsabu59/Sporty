@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
 import { useSelector } from "react-redux";
+import CartIcon from "../Cart/CartIcon";
 
 function Welcome() {
   const userName = useSelector((state) => state.user.currentUser.name);
@@ -20,14 +21,15 @@ function Welcome() {
           </Text>
         </View>
       </View>
-      <View style={styles.notifictionContainer}>
+      <CartIcon />
+      {/* <View style={styles.notifictionContainer}>
         <View style={styles.icon}>
           <Ionicons name="notifications" size={22} color={"black"} />
         </View>
         <View style={styles.notificationCount}>
           <Text style={styles.number}>0</Text>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 }

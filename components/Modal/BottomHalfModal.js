@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Modal, StyleSheet } from "react-native";
 
-const BottomHalfModal = ({ visible, onRequestClose, children }) => {
+const BottomHalfModal = ({ visible, onRequestClose, loginFrom, children }) => {
   // Function to clone the children and pass onRequestClose prop
   const renderChildren = React.Children.map(children, (child) => {
-    return React.cloneElement(child, { onRequestClose });
+    return React.cloneElement(child, { onRequestClose, loginFrom });
   });
 
   return (

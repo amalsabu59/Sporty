@@ -102,7 +102,11 @@ const GoogleSignInButton = ({
       onPress={() => promtAsync()}
     >
       <View style={styles.insideButtonContainer}>
-        <Image source={{ uri: googleLogoUrl }} width={25} height={25} />
+        <Image
+          source={require("../../assets/images/google.png")}
+          width={25}
+          height={25}
+        />
         <Text
           style={[
             styles.buttonText,

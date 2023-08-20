@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
     marginHorizontal: 16,
     // gap: 10,
     flexWrap: "wrap",
@@ -83,9 +83,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 4,
-    width: "45%",
+    width: "48%",
     height: "20%",
-    aspectRatio: 1, // Maintain a square shape
+    aspectRatio: 1.1, // Maintain a square shape
   },
   imageContainer: {
     // width:

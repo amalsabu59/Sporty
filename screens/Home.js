@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from "../redux/slices/loginSlice";
 import { getProducts } from "../redux/slices/productsSlice";
+import { getCartItems } from "../redux/slices/cartSlice";
 
 function Home() {
   const products = useSelector((state) => state.products.products);
@@ -14,10 +15,19 @@ function Home() {
   const [searchKeyWord, setSearchKeyWord] = useState("");
   const dispatch = useDispatch();
   const [selectedCat, setSelectedCat] = useState("All");
+
+  const userStore = useSelector((state) => state.user);
+
   useEffect(() => {
     dispatch(getCurrentUser());
     dispatch(getProducts());
   }, []);
+
+  useEffect(() => {
+    if (userStore?.currentUser?._id) {
+      dispatch(getCartItems(userStore?.currentUser?._id));
+    }
+  }, [userStore?.currentUser?._id]);
 
   useEffect(() => {
     if (searchKeyWord) {
@@ -109,5 +119,10 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     // flexWrap: "wrap", // Allow buttons to wrap to the next line if necessary
+  },
+  cards: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
   },
 });

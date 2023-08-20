@@ -53,9 +53,10 @@ export const updateUserName = createAsyncThunk(
     }
   }
 );
-export const openLoginModal = () => {
+export const openLoginModal = (loginFrom) => {
   return {
     type: "user/openLoginModal",
+    payload: loginFrom,
   };
 };
 
@@ -68,6 +69,7 @@ export const closeLoginModal = () => {
 const initalState = {
   status: "",
   otpForVerification: "",
+  loginFrom: "",
   currentUser: {
     phone: "",
   },
@@ -77,8 +79,9 @@ const userSlice = createSlice({
   name: "user",
   initialState: initalState,
   reducers: {
-    openLoginModal: (state) => {
+    openLoginModal: (state, action) => {
       state.loginModal = true;
+      state.loginFrom = action.payload;
     },
     closeLoginModal: (state) => {
       state.loginModal = false;

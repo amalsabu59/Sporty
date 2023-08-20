@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import ImagePicker from "react-native-image-crop-picker"; // Import from the correct library
+import ImagePicker from "react-native-image-crop-picker";
 import {
   getStorage,
   ref,
@@ -22,7 +22,6 @@ import { Ionicons } from "@expo/vector-icons";
 import CustomButton from "../components/UI/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
 import ProductsList from "../components/Admin/ProductsList";
-// import { ScrollView } from "react-native-gesture-handler";
 import {
   addProducts,
   clearFormData,
@@ -64,10 +63,20 @@ const Admin = () => {
           "exiting upload>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
         );
         setUploading(false);
+
+        let formattedImages = [
+          ...selectedImages,
+          ...formData.values.images,
+          ...newImages,
+        ];
+
+        formattedImages = [...new Set(formattedImages)];
         dispatch(
-          createFormData({ ["images"]: [...selectedImages, ...newImages] })
+          createFormData({
+            ["images"]: formattedImages,
+          })
         );
-        setSelectedImages([...selectedImages, ...newImages]);
+        setSelectedImages(formattedImages);
       });
     } catch (error) {
       console.log("ImagePicker Error: ", error);
@@ -143,6 +152,7 @@ const Admin = () => {
     }
 
     setActiveTab("View");
+    dispatch(clearFormData());
   };
   return (
     <View style={styles.container}>
@@ -182,7 +192,7 @@ const Admin = () => {
               <ProductsList
                 {...item}
                 setActiveTab={setActiveTab}
-                key={products.id}
+                key={item._id}
               />
             );
           })}
@@ -194,7 +204,7 @@ const Admin = () => {
           <View style={{ display: "flex", flexDirection: "row" }}>
             <FlatList
               data={formData.values?.images}
-              keyExtractor={(item, index) => index.toString()}
+              keyExtractor={(item, index) => item}
               renderItem={({ item, index }) => {
                 return (
                   <View style={styles.imageRow}>

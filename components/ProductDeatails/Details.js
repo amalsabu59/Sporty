@@ -68,7 +68,7 @@ function Details({ product }) {
   const addtoCart = (id) => {
     if (!isCurrentUser) {
       dispatch(selectedProductId(id));
-      dispatch(openLoginModal());
+      dispatch(openLoginModal("ProductDetails"));
       dispatch(selectedCartId(id));
 
       return;

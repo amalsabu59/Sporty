@@ -55,7 +55,7 @@ function AddProductForm() {
         name="price"
         maxLength={7}
         inputMode={"tel"}
-        inputValue={formData.price || ""}
+        inputValue={formData?.price.toString() || ""}
       />
 
       {/* <LabeledTextInput label="Email" placeholder="Enter your email" /> */}

@@ -43,7 +43,7 @@ const ProfileComponent = () => {
     dispatch(closeLoginModal());
   };
   const loginHanlder = () => {
-    dispatch(openLoginModal());
+    dispatch(openLoginModal("profile"));
   };
   return (
     <View style={styles.container}>
@@ -66,7 +66,7 @@ const ProfileComponent = () => {
           onPress={() => navigation.navigate("My Orders")}
         >
           <Text style={styles.sectionTitle}>My Orders</Text>
-          <Text style={styles.sectionDescription}>Already have 12 orders</Text>
+          <Text style={styles.sectionDescription}>View orders</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.sectionContainer}
@@ -118,7 +118,11 @@ const ProfileComponent = () => {
           >
             <View>
               <Text style={styles.sectionTitle}>Login</Text>
-              <BottomHalfModal visible={modalState} onRequestClose={closeModal}>
+              <BottomHalfModal
+                visible={modalState}
+                onRequestClose={closeModal}
+                loginFrom={"profile"}
+              >
                 <Login />
               </BottomHalfModal>
             </View>

@@ -25,10 +25,12 @@ function Cart() {
   const loading = useSelector((state) => state.cart.status);
 
   useEffect(() => {
-    dispatch(getCartItems(userStore?.currentUser?._id));
+    if (cartStore.length === 0) {
+      dispatch(getCartItems(userStore?.currentUser?._id));
+    }
 
     if (!isCurrentUser) {
-      dispatch(openLoginModal());
+      dispatch(openLoginModal("Cart"));
     }
   }, [userStore?.currentUser?._id]);
 

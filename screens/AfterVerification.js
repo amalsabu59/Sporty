@@ -7,14 +7,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUserName } from "../redux/slices/loginSlice";
 import { useNavigation } from "@react-navigation/native";
 
-function AfterVerification() {
+function AfterVerification({ route }) {
   const [name, setName] = useState("");
   const currentUser = useSelector((state) => state.user.currentUser);
+  const loginFrom = useSelector((state) => state.user.loginFrom);
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  // const loginFrom = route.params.loginFrom;
+  // console.log(loginFrom);
   const updateNameHandler = () => {
     dispatch(updateUserName({ id: currentUser._id, name }));
-    navigation.navigate("ProductDetails");
+    navigation.navigate(loginFrom);
   };
   return (
     <View style={styles.root}>

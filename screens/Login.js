@@ -10,7 +10,7 @@ import { sendotp } from "../redux/slices/loginSlice";
 import { useDispatch } from "react-redux";
 import { useToast } from "react-native-toast-notifications";
 
-const Login = ({ onRequestClose }) => {
+const Login = ({ onRequestClose, loginFrom }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const [mobileNumber, setmobileNumber] = useState("");
@@ -23,7 +23,7 @@ const Login = ({ onRequestClose }) => {
     }
     dispatch(sendotp({ phone: mobileNumber }));
     onRequestClose();
-    navigation.navigate("OtpVerification");
+    navigation.navigate("OtpVerification", { loginFrom });
   };
 
   const handleChange = (text) => {
