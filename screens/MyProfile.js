@@ -70,7 +70,9 @@ const ProfileComponent = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.sectionContainer}
-          onPress={() => navigation.navigate("Shipping Addresses")}
+          onPress={() =>
+            navigation.navigate("Shipping Addresses", { showCheckout: false })
+          }
         >
           <Text style={styles.sectionTitle}>Shipping addresses</Text>
           <Text style={styles.sectionDescription}>View Addresses</Text>

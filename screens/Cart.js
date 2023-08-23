@@ -47,7 +47,7 @@ function Cart() {
 
   const checkoutHandler = () => {
     if (cartStore.length > 0) {
-      navigation.navigate("Shipping Addresses");
+      navigation.navigate("Shipping Addresses", { showCheckout: true });
     } else {
       return toast.show("No items found for checkout !", {
         type: "danger",

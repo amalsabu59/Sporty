@@ -10,6 +10,7 @@ function OrderInfo({ item }) {
       cartId: item.orderDetails.cartId,
       amountPaid: item.orderDetails.amountPaid,
       isReordering: true,
+      showCheckout: true,
     });
   };
 

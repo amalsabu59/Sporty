@@ -51,7 +51,7 @@ function InputForm() {
         handleChangeText={handleChangeText}
         label="Phone*"
         name="phone"
-        inputValue={formData.phone.toString() || ""}
+        inputValue={formData?.phone?.toString() || ""}
         inputMode={"tel"}
         maxLength={10}
       />

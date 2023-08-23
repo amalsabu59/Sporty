@@ -16,6 +16,7 @@ function Address({ route }) {
   const cartId = routeParams?.cartId;
   const isReordering = routeParams?.isReordering;
   const amountPaid = routeParams?.amountPaid;
+  const showCheckoutButton = routeParams?.showCheckout;
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
@@ -109,9 +110,11 @@ function Address({ route }) {
           <Text style={styles.plusButtonText}>+</Text>
         </View>
       </TouchableOpacity>
-      <View style={{ margin: 32 }}>
-        <CustomButton text="Checkout" onPress={() => paymentHandler()} />
-      </View>
+      {showCheckoutButton && (
+        <View style={{ margin: 32 }}>
+          <CustomButton text="Checkout" onPress={() => paymentHandler()} />
+        </View>
+      )}
     </View>
   );
 }

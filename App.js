@@ -151,7 +151,7 @@ export default function App() {
         options={{
           tabBarLabel: () => "",
           tabBarIcon: ({ color, size }) => {
-            return <Ionicons name="apps" size={size} color={color} />;
+            return <Ionicons name="cube" size={size} color={color} />;
           },
         }}
       />
@@ -212,70 +212,70 @@ export default function App() {
           }}
         >
           <StatusBar style="auto" />
-          <SafeAreaView style={{ flex: 1 }}>
-            <Stack.Navigator>
-              <Stack.Screen
-                name="Onboarding"
-                component={Onboarding}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="MainApp"
-                component={RenderMainApp}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="ProductDetails"
-                component={ProductDetails}
-                options={{
-                  headerTitle: "", // Remove the header name
-                  headerRight: () => (
-                    <View style={{ flexDirection: "row" }}>
-                      <SearchIcon />
-                      <CartIcon />
-                    </View>
-                  ),
-                }}
-              />
-              <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen name="Shipping Addresses" component={Address} />
-              <Stack.Screen name="Shipping Address" component={AddressInput} />
-              <Stack.Screen name="Order Details" component={OrderDetails} />
-              <Stack.Screen name="Select product" component={FeedBackList} />
-              <Stack.Screen name="Admin" component={Admin} />
+          {/* <SafeAreaView style={{ flex: 1 }}> */}
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Onboarding"
+              component={Onboarding}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="MainApp"
+              component={RenderMainApp}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ProductDetails"
+              component={ProductDetails}
+              options={{
+                headerTitle: "", // Remove the header name
+                headerRight: () => (
+                  <View style={{ flexDirection: "row" }}>
+                    <SearchIcon />
+                    <CartIcon />
+                  </View>
+                ),
+              }}
+            />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Shipping Addresses" component={Address} />
+            <Stack.Screen name="Shipping Address" component={AddressInput} />
+            <Stack.Screen name="Order Details" component={OrderDetails} />
+            <Stack.Screen name="Select product" component={FeedBackList} />
+            <Stack.Screen name="Admin" component={Admin} />
 
-              <Stack.Screen
-                name="Success"
-                component={Success}
-                options={{ headerTitle: "" }}
-              />
-              <Stack.Screen
-                name="OtpVerification"
-                component={OtpVerification}
-                options={{ headerTitle: "" }}
-              />
-              <Stack.Screen
-                name="afterVerification"
-                component={AfterVerification}
-                options={({ navigation }) => ({
-                  headerTitle: "",
-                  headerRight: () => {
-                    const loginFrom = useSelector(
-                      (state) => state.user.loginFrom
-                    );
-                    return (
-                      <TouchableOpacity // Use TouchableOpacity instead of View
-                        style={{ marginRight: 20 }}
-                        onPress={() => navigation.navigate(loginFrom)} // Wrap it inside an arrow function
-                      >
-                        <Text style={{ color: "#28B446" }}>Skip</Text>
-                      </TouchableOpacity>
-                    );
-                  },
-                })}
-              />
-            </Stack.Navigator>
-          </SafeAreaView>
+            <Stack.Screen
+              name="Success"
+              component={Success}
+              options={{ headerTitle: "" }}
+            />
+            <Stack.Screen
+              name="OtpVerification"
+              component={OtpVerification}
+              options={{ headerTitle: "" }}
+            />
+            <Stack.Screen
+              name="afterVerification"
+              component={AfterVerification}
+              options={({ navigation }) => ({
+                headerTitle: "",
+                headerRight: () => {
+                  const loginFrom = useSelector(
+                    (state) => state.user.loginFrom
+                  );
+                  return (
+                    <TouchableOpacity // Use TouchableOpacity instead of View
+                      style={{ marginRight: 20 }}
+                      onPress={() => navigation.navigate(loginFrom)} // Wrap it inside an arrow function
+                    >
+                      <Text style={{ color: "#28B446" }}>Skip</Text>
+                    </TouchableOpacity>
+                  );
+                },
+              })}
+            />
+          </Stack.Navigator>
+          {/* </SafeAreaView> */}
         </ToastProvider>
       </NavigationContainer>
     </Provider>

@@ -73,6 +73,7 @@ const initalState = {
   currentUser: {
     phone: "",
   },
+  existingUser: false,
   loginModal: false,
 };
 const userSlice = createSlice({
@@ -104,6 +105,7 @@ const userSlice = createSlice({
     [sendotp.fulfilled]: (state, { payload }) => {
       state.otpForVerification = payload.otp;
       state.currentUser["phone"] = payload.phone;
+      state.existingUser = payload.existingUser;
       state.status = "success";
     },
     [sendotp.rejected]: (state, action) => {
@@ -115,6 +117,7 @@ const userSlice = createSlice({
     [login.fulfilled]: (state, { payload }) => {
       AsyncStorage.setItem("@currentUser", JSON.stringify(payload));
       state.currentUser = payload.user;
+
       state.status = "success";
     },
     [login.rejected]: (state, action) => {

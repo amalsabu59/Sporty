@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import ImagePicker from "react-native-image-crop-picker";
+// import ImagePicker from "react-native-image-crop-picker";
 import {
   getStorage,
   ref,
@@ -42,45 +42,43 @@ const Admin = () => {
     if (activeTab === "View") dispatch(clearFormData());
   }, [activeTab]);
   const handleImagePicker = async () => {
-    try {
-      ImagePicker.openPicker({
-        width: 300,
-        height: 400,
-        cropping: true,
-        multiple: true, // Allow multiple image selection
-        maxFiles: 4 - selectedImages.length,
-      }).then(async (images) => {
-        const newImages = [];
-        setUploading(true);
-        for (const image of images) {
-          console.log(image);
-          const blob = await convertToBlob(image.path);
-          const url = await uploadFile(blob);
-          newImages.push(url);
-        }
-        console.log(
-          newImages,
-          "exiting upload>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-        );
-        setUploading(false);
-
-        let formattedImages = [
-          ...selectedImages,
-          ...formData.values.images,
-          ...newImages,
-        ];
-
-        formattedImages = [...new Set(formattedImages)];
-        dispatch(
-          createFormData({
-            ["images"]: formattedImages,
-          })
-        );
-        setSelectedImages(formattedImages);
-      });
-    } catch (error) {
-      console.log("ImagePicker Error: ", error);
-    }
+    // try {
+    //   ImagePicker.openPicker({
+    //     width: 300,
+    //     height: 400,
+    //     cropping: true,
+    //     multiple: true, // Allow multiple image selection
+    //     maxFiles: 4 - selectedImages.length,
+    //   }).then(async (images) => {
+    //     const newImages = [];
+    //     setUploading(true);
+    //     for (const image of images) {
+    //       console.log(image);
+    //       const blob = await convertToBlob(image.path);
+    //       const url = await uploadFile(blob);
+    //       newImages.push(url);
+    //     }
+    //     console.log(
+    //       newImages,
+    //       "exiting upload>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+    //     );
+    //     setUploading(false);
+    //     let formattedImages = [
+    //       ...selectedImages,
+    //       ...formData.values.images,
+    //       ...newImages,
+    //     ];
+    //     formattedImages = [...new Set(formattedImages)];
+    //     dispatch(
+    //       createFormData({
+    //         ["images"]: formattedImages,
+    //       })
+    //     );
+    //     setSelectedImages(formattedImages);
+    //   });
+    // } catch (error) {
+    //   console.log("ImagePicker Error: ", error);
+    // }
   };
 
   const convertToBlob = async (path) => {

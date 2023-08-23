@@ -33,6 +33,7 @@ function Orders() {
       cartId: cart.cartId,
       amountPaid: cart.amountPaid,
       isReordering: true,
+      showCheckout: true,
     });
   };
   return (
